@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+/*
+  Tokens pulled directly from the Figma file "case-studies-2026" (planit redesign, node 1:71)
+  via the Figma MCP get_design_context / get_variable_defs tools. Do not hand-tune these —
+  re-derive from Figma if the design changes.
+*/
+:root {
+  --font-heading: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Figtree', -apple-system, sans-serif;
+
+  /* Core UI */
+  --ink: #000000;
+  --accent: #2e9d8c;      /* teal panel fill (Context / Gap Analysis / Takeaway cards) */
+  --card-bg: #f8f8f8;     /* neutral card / pill fill */
+  --card-border: #dddddd; /* neutral card / pill border */
+
+  /* Figma local variables (used inside the illustrated app-screen mockups) */
+  --var-creme-text: #F5F1EA;
+  --var-accent-gray: #3C3939;
+  --var-blue: #84DBDD;
+  --var-purple: #A5ABEC;
+  --var-pink: #F7BFC5;
+  --var-gray: #272626;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+
+/* Prevents a single word from being left alone on the last line of a paragraph/heading.
+   Includes div because LabelValue (and similar caption components) render their text
+   directly inside a div rather than a p. */
+p, li, h1, h2, h3, h4, div {
+  text-wrap: pretty;
+}
+
+/* Very slow, low-amplitude drift for the home/about page background glow (see
+   SiteBackground.jsx) — intentionally close to imperceptible at a glance. */
+@keyframes site-glow-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.85; }
+  100% { transform: translate(-3%, 3%) scale(1.08); opacity: 1; }
+}
+.site-glow {
+  animation: site-glow-drift 32s ease-in-out infinite alternate;
+}
