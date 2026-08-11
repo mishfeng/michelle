@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import BackArrowIcon from './ui/BackArrowIcon.jsx'
-import { SCALE, DESKTOP_BREAKPOINT } from '../scale.js'
+import { SCALE, DESKTOP_BREAKPOINT, SIDEBAR_BREAKPOINT } from '../scale.js'
 
 // Figma nodes 1:2011 (back arrow) + 1:2015 (nav links) — shared across case study
 // pages. Each page passes its own `links` (section labels, in on-page order) and an
@@ -10,11 +10,15 @@ export const toId = (label) => label.toLowerCase().replace(/\s+/g, '-')
 
 export default function Sidebar({ links, getScrollTarget }) {
   const [activeId, setActiveId] = useState(toId(links[0]))
-  // Gated to the same breakpoint as ScaleWrapper's scaled canvas (see scale.js) —
-  // the sidebar's own transform: scale(SCALE) below only makes sense once the main
-  // content is also rendering at that same 1.2x scale, otherwise the two would be
-  // visually out of proportion with each other.
-  const [isDesktop, setIsDesktop] = useState(
+  // Visible once the page is wide enough for the sidebar rail to make sense at
+  // all (SIDEBAR_BREAKPOINT, matching the content's own `xl:` breakpoint). It only
+  // additionally picks up the 1.2x transform once ScaleWrapper starts scaling the
+  // rest of the page too (DESKTOP_BREAKPOINT) — otherwise the two would be visually
+  // out of proportion with each other.
+  const [isVisible, setIsVisible] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth >= SIDEBAR_BREAKPOINT
+  )
+  const [isScaled, setIsScaled] = useState(
     () => typeof window !== 'undefined' && window.innerWidth >= DESKTOP_BREAKPOINT
   )
 
@@ -33,19 +37,30 @@ export default function Sidebar({ links, getScrollTarget }) {
   }
 
   useEffect(() => {
-    const mq = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`)
-    const update = () => setIsDesktop(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    const visibleMq = window.matchMedia(`(min-width: ${SIDEBAR_BREAKPOINT}px)`)
+    const scaledMq = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`)
+    const updateVisible = () => setIsVisible(visibleMq.matches)
+    const updateScaled = () => setIsScaled(scaledMq.matches)
+    updateVisible()
+    updateScaled()
+    visibleMq.addEventListener('change', updateVisible)
+    scaledMq.addEventListener('change', updateScaled)
+    return () => {
+      visibleMq.removeEventListener('change', updateVisible)
+      scaledMq.removeEventListener('change', updateScaled)
+    }
   }, [])
 
-  if (!isDesktop) return null
+  if (!isVisible) return null
 
   return (
     <aside
       className="fixed left-0 top-0 z-50 flex w-[250px] flex-col pt-[98px] pl-[34px]"
-      style={{ height: `${100 / SCALE}vh`, transform: `scale(${SCALE})`, transformOrigin: 'top left' }}
+      style={
+        isScaled
+          ? { height: `${100 / SCALE}vh`, transform: `scale(${SCALE})`, transformOrigin: 'top left' }
+          : { height: '100vh' }
+      }
     >
       <a
         href="/"

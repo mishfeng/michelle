@@ -46,7 +46,7 @@ export default function PlanIT() {
       <Sidebar links={NAV_LINKS} getScrollTarget={getScrollTarget} />
       <ScaleWrapper>
         <div className="bg-white min-h-screen">
-          <main className="min-[1800px]:pl-[250px]">
+          <main className="xl:pl-[250px]">
             <div className="mx-auto max-w-[860px] px-6 py-14 xl:px-0">
               <IntroSection />
               <OriginalAndSolutionSection />

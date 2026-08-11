@@ -11,3 +11,10 @@ export const DESIGN_WIDTH = 1500
 // sections still apply their `xl:` (1280px) styles in that range, which is exactly
 // the "1x desktop" layout the design was built from before the 1.2x scale-up.
 export const DESKTOP_BREAKPOINT = DESIGN_WIDTH * SCALE
+
+// Below DESKTOP_BREAKPOINT, page sections already switch into their "1x desktop"
+// layout at Tailwind's `xl:` breakpoint (1280px) — see ScaleWrapper. The Sidebar
+// must become visible at that same point, not wait for DESKTOP_BREAKPOINT, or it
+// stays hidden across the whole 1280-1800px range that most real laptop screens
+// actually report (previously it only appeared above 1800px, i.e. almost never).
+export const SIDEBAR_BREAKPOINT = 1280
