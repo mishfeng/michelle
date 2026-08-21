@@ -4,15 +4,26 @@ import SiteHero from '../components/site/SiteHero.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
 import SiteBackground from '../components/site/SiteBackground.jsx'
 import heroImage from '../assets/site/home-hero.jpeg'
-import textureImage from '../assets/site/texture.png'
-import capitalOneTeaser from '../assets/site/c1-teaser.mp4'
-import planitThumbnail from '../assets/site/planit-thumbnail.mp4'
+import planitCover from '../assets/home/planit-cover.jpg'
+import capitalOneTeaser from '../assets/home/capitalone.mp4'
+import remiTeaser from '../assets/home/remi.mp4'
+import watchfulTeaser from '../assets/home/watchfulai.mp4'
 
 const cardShellClass =
   'relative flex aspect-[668/448] w-full items-center justify-center overflow-hidden rounded-[12.664px] border-[0.792px] border-[#ddd]'
 const thumbnailClass = 'origin-left transition-transform duration-200 group-hover:scale-[0.97]'
-const captionClass =
-  'pl-4 font-body text-[16px] leading-normal tracking-[0.1px] text-black opacity-0 transition-opacity duration-200 group-hover:opacity-50'
+
+// Figma nodes 308:253/257/264 + 309:268 — always-visible two-line caption under
+// each home project card (semibold title, regular "Org · Year" subtitle),
+// replacing the old hover-to-reveal single-line caption.
+function ProjectCaption({ title, subtitle }) {
+  return (
+    <div className="mt-4 flex flex-col gap-[2px] font-body text-[16px] leading-normal tracking-[0.1px] text-black">
+      <p className="font-semibold">{title}</p>
+      <p>{subtitle}</p>
+    </div>
+  )
+}
 
 // Ported from Figma "case-studies-2026" file, frame "home page" (node 55:4305).
 // Replaces the temporary placeholder that used to live directly in index.html.
@@ -50,15 +61,21 @@ export default function Home() {
             <SiteNav active="work" />
           </div>
 
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row">
-            <a href="/capital-one/" className="group flex min-w-0 flex-1 flex-col gap-2">
-              <div className={`${cardShellClass} ${thumbnailClass}`}>
-                <div
-                  aria-hidden
-                  className="absolute inset-0 rounded-[12.664px] opacity-15"
-                  style={{ backgroundImage: `url(${textureImage})`, backgroundSize: 'cover' }}
-                />
-                <div className="relative aspect-[494/312] w-[73.9%] overflow-hidden rounded-[12.664px]">
+          <div className="mt-6 flex flex-col gap-8">
+            <div className="flex flex-col gap-6 sm:flex-row">
+              <a href="/planit/" className="group flex min-w-0 flex-1 flex-col">
+                <div className={`${cardShellClass} ${thumbnailClass}`}>
+                  <img
+                    src={planitCover}
+                    alt="PlanIT overview and itinerary screens"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                </div>
+                <ProjectCaption title="A simpler way to plan trips with friends" subtitle="PlanIT Travel Assistant · 2026" />
+              </a>
+
+              <a href="/capital-one/" className="group flex min-w-0 flex-1 flex-col">
+                <div className={`${cardShellClass} ${thumbnailClass}`}>
                   <video
                     src={capitalOneTeaser}
                     autoPlay
@@ -69,31 +86,57 @@ export default function Home() {
                     aria-label="Capital One credit card teaser"
                     className="absolute inset-0 size-full object-cover"
                   />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 opacity-15"
-                    style={{ backgroundImage: `url(${textureImage})`, backgroundSize: 'cover' }}
+                </div>
+                <ProjectCaption title="Helping customers understand what their deposit means" subtitle="Capital One · 2025" />
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-6 sm:flex-row">
+              <a
+                href="https://devpost.com/software/remi-ft132o"
+                target="_blank"
+                rel="noopener"
+                className="group flex min-w-0 flex-1 flex-col"
+              >
+                <div className={`${cardShellClass} ${thumbnailClass}`}>
+                  <video
+                    src={remiTeaser}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    aria-label="REMI product teaser"
+                    className="absolute inset-0 size-full object-cover"
                   />
                 </div>
-              </div>
-              <p className={captionClass}>Helping customers know what their deposit means</p>
-            </a>
+                <ProjectCaption title="REMI helps people with Alzheimer's disease" subtitle="SF Hacks 3x Prize Winner · 2025" />
+              </a>
 
-            <a href="/planit/" className="group flex min-w-0 flex-1 flex-col gap-2">
-              <div className={`${cardShellClass} ${thumbnailClass}`}>
-                <video
-                  src={planitThumbnail}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  aria-label="PlanIT date selection teaser"
-                  className="absolute inset-0 size-full object-cover"
+              <a
+                href="https://devpost.com/software/watchful-ai-u5id0v"
+                target="_blank"
+                rel="noopener"
+                className="group flex min-w-0 flex-1 flex-col"
+              >
+                <div className={`${cardShellClass} ${thumbnailClass}`}>
+                  <video
+                    src={watchfulTeaser}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    aria-label="Watchful.AI product teaser"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                </div>
+                <ProjectCaption
+                  title="Watchful.AI provides 24/7 protection against shootings"
+                  subtitle="UPenn 2x Prize Winner · 2024"
                 />
-              </div>
-              <p className={captionClass}>A simpler way to plan trips with friends</p>
-            </a>
+              </a>
+            </div>
           </div>
         </div>
 

@@ -27,15 +27,18 @@ export default function SiteFooter() {
       className="border-t-[0.5px] border-[#ddd] bg-white px-6 py-10 sm:px-[70px] sm:py-[52px]"
     >
       <div className="flex flex-col items-center gap-8 text-center sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6 sm:text-left">
-        <div className="flex flex-col items-center gap-3 sm:items-start">
-          <p className="font-heading text-[24px] leading-normal tracking-[0.1px] text-black">
+        <div className="flex flex-col items-center gap-1 sm:items-start">
+          <p className="font-heading text-[24px] font-medium leading-normal tracking-[0.1px] text-black">
             Michelle Feng
           </p>
-          <nav className="flex items-center gap-2 font-body text-[16px] leading-normal tracking-[0.1px] text-black">
-            <a href="/" className="hover:opacity-60">
+          <nav className="flex items-center gap-2 font-body text-[16px] leading-normal tracking-[0.1px]">
+            <a href="/" className="text-black/50 transition-colors hover:text-black">
               Work
             </a>
-            <a href="/about/" className="hover:opacity-60">
+            <a href="/play/" className="text-black/50 transition-colors hover:text-black">
+              Play
+            </a>
+            <a href="/about/" className="text-black/50 transition-colors hover:text-black">
               About
             </a>
           </nav>
