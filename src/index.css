@@ -70,24 +70,21 @@ html, body {
   navigation: auto;
 }
 
-/* The incoming page slides up from the bottom of the viewport into place; the
-   outgoing page just fades so it doesn't fight the motion. view-transition-group's
-   snapshot container is viewport-sized and clips its own content by default, so
-   sliding the new page up from translateY(100%) is naturally revealed as it
-   crosses into that frame — no extra clipping setup needed. */
-@keyframes page-slide-in {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
+/* A plain, gentle crossfade — no slide/transform. Matches the smooth-scroll feel
+   of the PlanIT/Capital One sidebar's section jumps (a soft ease, nothing showy)
+   rather than the more dramatic slide-up-from-bottom this replaced. */
 @keyframes page-fade-out {
   to { opacity: 0; }
+}
+@keyframes page-fade-in {
+  from { opacity: 0; }
 }
 
 /* Without this, the browser's default cross-fade blend mode (plus-lighter, meant
    to keep an ordinary crossfade from double-darkening overlapping content) stays
    active underneath our custom animations too, washing out the moment the new
    page overlaps the old one. Forcing normal blending + isolating the pair keeps
-   the slide-up looking like one page cleanly covering the other. */
+   the fade looking like a clean dissolve instead. */
 ::view-transition-image-pair(root) {
   isolation: isolate;
 }
@@ -97,10 +94,10 @@ html, body {
 }
 
 ::view-transition-old(root) {
-  animation: 0.35s ease-in both page-fade-out;
+  animation: 0.35s ease-in-out both page-fade-out;
 }
 ::view-transition-new(root) {
-  animation: 0.5s cubic-bezier(0.22, 1, 0.36, 1) both page-slide-in;
+  animation: 0.35s ease-in-out both page-fade-in;
 }
 
 /* Staggered per-letter reveal for Home's "michelle feng" heading on page load —
@@ -125,9 +122,9 @@ html, body {
   }
 }
 
-/* "Fairy dust" sparkle trail spawned by FairyDustText.jsx while the cursor moves
-   over an accent word — particles are appended straight to document.body (fixed
-   position, viewport coordinates), then removed on their own animationend. */
+/* "Fairy dust" sparkle trail spawned by CustomCursor.jsx on every pointer move —
+   particles are appended straight to document.body (fixed position, viewport
+   coordinates), then removed on their own animationend. */
 .fairy-dust-particle {
   position: fixed;
   top: 0;
