@@ -55,24 +55,30 @@ export default function Sidebar({ links, getScrollTarget }) {
 
   return (
     <aside
-      className="fixed left-0 top-0 z-50 flex w-[250px] flex-col pt-[98px] pl-[34px]"
+      className="pointer-events-none fixed left-0 top-0 z-50 flex w-[250px] flex-col pt-[98px] pl-[34px]"
       style={
         isScaled
           ? { height: `${100 / SCALE}vh`, transform: `scale(${SCALE})`, transformOrigin: 'top left' }
           : { height: '100vh' }
       }
     >
+      {/* The aside's own box spans the full viewport height so the rail can stay
+          fixed while scrolling, but its content only occupies the top of it — left
+          as pointer-events:auto by default, that full-height box silently ate clicks
+          on anything else in the left 250px column further down the page, including
+          the footer's name/nav links. pointer-events-none above + auto here scopes
+          click-catching back to just the visible links. */}
       <a
         href="/"
         aria-label="Back"
-        className="group mb-4 flex items-center gap-2 self-start text-black/50 transition-colors hover:text-black"
+        className="group pointer-events-auto mb-4 flex items-center gap-2 self-start text-black/50 transition-colors hover:text-black"
       >
         <BackArrowIcon className="size-6 shrink-0 -rotate-90" />
         <span className="max-w-0 overflow-hidden whitespace-nowrap text-[16px] font-body tracking-[0.32px] opacity-0 transition-all duration-200 group-hover:max-w-[48px] group-hover:opacity-100">
           Back
         </span>
       </a>
-      <nav className="flex flex-col items-start gap-3">
+      <nav className="pointer-events-auto flex flex-col items-start gap-3">
         {links.map((link) => {
           const id = toId(link)
           const isActive = id === activeId

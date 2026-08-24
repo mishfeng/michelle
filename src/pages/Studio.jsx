@@ -1,12 +1,11 @@
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
-import SiteNav from '../components/site/SiteNav.jsx'
-import SiteHero from '../components/site/SiteHero.jsx'
+import PageHeader from '../components/site/PageHeader.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
 import SiteBackground from '../components/site/SiteBackground.jsx'
+import WaveText from '../components/site/WaveText.jsx'
 import PlayTagList from '../components/site/PlayTagList.jsx'
 import PlayProjectSection from '../components/site/PlayProjectSection.jsx'
 import PlayArtGrid from '../components/site/PlayArtGrid.jsx'
-import heroVideo from '../assets/play/taste.mp4'
 import iconInstagram from '../assets/site/icon-instagram.svg'
 import iconLink from '../assets/play/icon-link.svg'
 
@@ -197,35 +196,27 @@ const DIGITAL_ART = {
   ],
 }
 
-// Ported from Figma "portfolio-2026" file, frame "home play page" (node 317:521).
-// Shares SiteNav/SiteHero/SiteFooter/SiteBackground with Home.jsx and About.jsx —
-// same page shell, plus a left tag list and a stack of project sections.
-export default function Play() {
+// Ported from Figma "portfolio-2026" file, frame "home play page" (node 404:4858,
+// "portfolio-2026" iteration 9/10 redesign — the "open studio" header replaces the
+// old video hero + name/tagline block; everything below the header is unchanged).
+// Shares SiteFooter/SiteBackground/PageHeader with Home.jsx and About.jsx.
+export default function Studio() {
   return (
     <ScaleWrapper center>
       <div className="relative bg-white min-h-screen">
         <SiteBackground />
 
         <div className="relative mx-auto max-w-[1500px] px-6 pt-11 pb-20 xl:px-[70px]">
-          <SiteHero
-            video={heroVideo}
-            alt="Taste everything"
-            quote="Taste everything"
+          <PageHeader
+            active="studio"
+            title="open studio"
+            subtitle={
+              <>
+                is where the <WaveText className="font-hand text-[20px]">magic</WaveText> happens
+              </>
+            }
+            caption="my virtual wall of crafts"
           />
-
-          <div className="mt-[53px] flex flex-wrap items-start justify-between gap-6">
-            <div className="flex max-w-[528px] flex-col gap-2">
-              <h1 className="font-heading text-[32px] font-medium leading-normal tracking-[0.64px] text-black">
-                Michelle Feng
-              </h1>
-              <p className="font-body text-[16px] leading-normal tracking-[0.32px] text-black">
-                Human connection through product, events, and stories
-                <br />
-                <span className="text-[#5c5c5c]">Previously in Florence, DC, Davis, and SF</span>
-              </p>
-            </div>
-            <SiteNav active="play" />
-          </div>
 
           <div className="mt-[41px] flex flex-wrap gap-x-[27px] gap-y-10">
             <PlayTagList tags={TAGS} />

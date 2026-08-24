@@ -1,13 +1,12 @@
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
-import SiteNav from '../components/site/SiteNav.jsx'
-import SiteHero from '../components/site/SiteHero.jsx'
+import PageHeader from '../components/site/PageHeader.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
 import SiteBackground from '../components/site/SiteBackground.jsx'
+import WaveText from '../components/site/WaveText.jsx'
 import AboutJumpNav from '../components/site/AboutJumpNav.jsx'
 import ExperienceEntry from '../components/site/ExperienceEntry.jsx'
 import PhilosophyCard from '../components/site/PhilosophyCard.jsx'
 import SideQuestSection from '../components/site/SideQuestSection.jsx'
-import heroVideo from '../assets/site/about-hero.mp4'
 import aboutPhoto from '../assets/site/about-photo.jpeg'
 import iconLinkedin from '../assets/site/icon-linkedin.svg'
 
@@ -39,7 +38,7 @@ import teaching4 from '../assets/about/teaching-4-tote-bag-design.jpg'
 const captionClass =
   'mt-4 pl-4 font-body text-[16px] leading-normal tracking-[0.1px] text-black opacity-0 transition-opacity duration-200 group-hover:opacity-50'
 
-const sectionHeadingClass = 'font-heading text-[24px] font-medium leading-normal tracking-[0.1px] text-black'
+const sectionHeadingClass = 'font-body text-[24px] font-medium leading-normal tracking-[0.1px] text-black'
 const sectionSubtitleClass = 'font-body text-[16px] leading-normal tracking-[0.1px] text-black'
 
 // Ported from Figma "portfolio-2026" file, node 308:114 ("home about page") —
@@ -70,7 +69,7 @@ const EXPERIENCE = [
 const PHILOSOPHY = [
   'Character is who you are when no one is watching.',
   'Be proactively reactive, not reactively proactive.',
-  'Do what you love, and love what you do.',
+  'Worrying is such a terrible use of your imagination.',
 ]
 
 const SIDE_QUESTS = [
@@ -128,8 +127,10 @@ const SIDE_QUESTS = [
 ]
 
 // Ported from Figma "case-studies-2026" file, frame "about page" (node 55:4361).
-// Shares SiteNav/SiteHero/SiteFooter with Home.jsx — same page shell, different
-// hero photo/quote and a bio instead of the project grid.
+// Shares PageHeader/SiteFooter with Home.jsx/Studio.jsx — same page shell,
+// a bio instead of the project grid below the header ("portfolio-2026"
+// iteration 9/10 redesign, node 430:5371 — the "about me" header replaces the
+// old video hero + name/tagline block; everything below is unchanged).
 export default function About() {
   return (
     <ScaleWrapper center>
@@ -137,31 +138,23 @@ export default function About() {
         <SiteBackground />
 
         <div className="relative mx-auto max-w-[1500px] px-6 pt-11 pb-20 xl:px-[70px]">
-          <SiteHero
-            video={heroVideo}
-            alt="Watching a paraglider land at a small airfield"
-            quote="What if I fall? Oh, but my darling, what if you fly?"
+          <PageHeader
+            active="about"
+            title="about me"
+            subtitle={
+              <>
+                a <WaveText className="font-accent text-[24px] font-normal italic underline">designer</WaveText> and{' '}
+                <WaveText className="font-hand text-[20px]">explorer</WaveText>
+              </>
+            }
+            caption="welcome to my scrapbook"
           />
 
-          <div className="mt-[53px] flex flex-wrap items-start justify-between gap-6">
-            <div className="flex max-w-[528px] flex-col gap-2">
-              <h1 className="font-heading text-[32px] font-medium leading-normal tracking-[0.64px] text-black">
-                Michelle Feng
-              </h1>
-              <p className="font-body text-[16px] leading-normal tracking-[0.32px] text-black">
-                Leading with curiosity, following with my heart
-                <br />
-                <span className="text-[#5c5c5c]">Currently based in San Francisco</span>
-              </p>
-            </div>
-            <SiteNav active="about" />
-          </div>
-
-          <div className="mt-[41px] flex flex-col items-start gap-8 sm:flex-row sm:gap-[52px]">
+          <div className="mt-[41px] flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[52px]">
             <AboutJumpNav items={JUMP_ITEMS} />
 
             <div className="flex min-w-0 flex-1 flex-col gap-[100px]">
-              <div className="flex flex-col items-start gap-8 sm:flex-row sm:gap-[60px]">
+              <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[60px]">
                 <div className="group w-full max-w-[462px] shrink-0 sm:w-[401px]">
                   <img
                     src={aboutPhoto}
@@ -172,7 +165,7 @@ export default function About() {
                 </div>
 
                 <div className="min-w-0 flex-1 sm:max-w-[579px]">
-                  <h2 className="font-heading text-[24px] font-medium leading-normal tracking-[0.1px] text-black">
+                  <h2 className="font-body text-[24px] font-medium leading-normal tracking-[0.1px] text-black">
                     Hey, I&apos;m Michelle!
                   </h2>
                   <div className="mt-[19px] flex flex-col gap-4 font-body text-[16px] leading-normal tracking-[0.1px] text-black">

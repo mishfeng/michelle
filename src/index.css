@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Domine:wght@700&family=Source+Serif+4:ital,wght@1,400&family=Finger+Paint&display=swap');
 @import "tailwindcss";
 
 /*
@@ -9,6 +9,17 @@
 :root {
   --font-heading: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-body: 'Figtree', -apple-system, sans-serif;
+
+  /* "portfolio-2026" iteration 9/10 redesign (Home/Studio/About) — three accent
+     fonts layered on top of Figtree: Domine for the big page-title serif, Source
+     Serif 4 italic for the underlined "product designer"/"designer" accent word,
+     and Finger Paint for the hand-drawn "city explorer"/"magic"/"explorer" words
+     and the "M" logo mark. Kept separate from --font-heading (SF Pro) rather than
+     replacing it, since --font-heading is still used by PlanIT/Capital One case
+     study headings that weren't part of this redesign. */
+  --font-display: 'Domine', serif;
+  --font-accent: 'Source Serif 4', serif;
+  --font-hand: 'Finger Paint', cursive;
 
   /* Core UI */
   --ink: #000000;
@@ -34,14 +45,103 @@ html, body {
   font-family: var(--font-body);
 }
 
+/* Native cursor replaced by CustomCursor.jsx (a medium brown dot that follows
+   the pointer) on every page. Left as a plain global rule rather than scoped
+   to pointer-fine media, since CustomCursor itself already no-ops on touch
+   devices — leaving this unscoped would just mean no cursor renders at all
+   there, which coarse-pointer devices don't show anyway. */
+* {
+  cursor: none !important;
+}
+
 .font-heading { font-family: var(--font-heading); }
 .font-body { font-family: var(--font-body); }
+.font-display { font-family: var(--font-display); }
+.font-accent { font-family: var(--font-accent); }
+.font-hand { font-family: var(--font-hand); }
+
+/* Opts every same-origin navigation between these static pages into the browser's
+   native cross-document View Transition (a crossfade) instead of an instant swap.
+   No JS/router needed — this is a plain multi-page app (separate HTML entry per
+   route), and `navigation: auto` is exactly the declarative hook for that case.
+   Unsupported browsers (fully unaware of @view-transition, e.g. Safari/Firefox at
+   time of writing) just ignore the rule and navigate instantly, same as before. */
+@view-transition {
+  navigation: auto;
+}
+
+/* The incoming page slides up from the bottom of the viewport into place; the
+   outgoing page just fades so it doesn't fight the motion. view-transition-group's
+   snapshot container is viewport-sized and clips its own content by default, so
+   sliding the new page up from translateY(100%) is naturally revealed as it
+   crosses into that frame — no extra clipping setup needed. */
+@keyframes page-slide-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+
+/* Without this, the browser's default cross-fade blend mode (plus-lighter, meant
+   to keep an ordinary crossfade from double-darkening overlapping content) stays
+   active underneath our custom animations too, washing out the moment the new
+   page overlaps the old one. Forcing normal blending + isolating the pair keeps
+   the slide-up looking like one page cleanly covering the other. */
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: 0.35s ease-in both page-fade-out;
+}
+::view-transition-new(root) {
+  animation: 0.5s cubic-bezier(0.22, 1, 0.36, 1) both page-slide-in;
+}
+
+/* Staggered per-letter reveal for Home's "michelle feng" heading on page load —
+   see WriteInHeading in Home.jsx, which wraps each letter in its own span and
+   offsets this same animation by index. */
+@keyframes write-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Prevents a single word from being left alone on the last line of a paragraph/heading.
    Includes div because LabelValue (and similar caption components) render their text
-   directly inside a div rather than a p. */
-p, li, h1, h2, h3, h4, div {
-  text-wrap: pretty;
+   directly inside a div rather than a p. Scoped inside @layer base so Tailwind's
+   utilities layer (e.g. whitespace-nowrap, which resolves to the longhand
+   text-wrap: nowrap) always wins on any element that opts out — an unlayered rule
+   here would beat utilities regardless of specificity and silently re-enable
+   wrapping wherever both apply, which is exactly what happened to the footer's
+   "made with love © 2026" text before this was scoped. */
+@layer base {
+  p, li, h1, h2, h3, h4, div {
+    text-wrap: pretty;
+  }
+}
+
+/* "Fairy dust" sparkle trail spawned by FairyDustText.jsx while the cursor moves
+   over an accent word — particles are appended straight to document.body (fixed
+   position, viewport coordinates), then removed on their own animationend. */
+.fairy-dust-particle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f6d488 0%, #d9a441 55%, transparent 100%);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  animation: fairy-dust-float 0.7s ease-out forwards;
+}
+@keyframes fairy-dust-float {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx, 0px), -34px) scale(0.3); }
 }
 
 /* Very slow, low-amplitude drift for the home/about page background glow (see

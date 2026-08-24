@@ -1,23 +1,17 @@
 import iconLinkedin from '../../assets/site/icon-linkedin.svg'
 import iconSubstack from '../../assets/site/icon-substack.svg'
-import iconInstagram from '../../assets/site/icon-instagram.svg'
 import iconTwitter from '../../assets/site/icon-twitter-fill.svg'
-import iconSpotify from '../../assets/site/icon-spotify.svg'
 import iconHeartOutline from '../../assets/site/icon-heart-outline.svg'
 import iconHeartFilled from '../../assets/site/icon-heart-filled.svg'
 
-// Figma node 55:4320 ("footer portfolio 2026") — identical on both the home and
-// about pages, so it's a shared component rather than living in either page file.
+// Figma node 430:5334/5547 ("footer portfolio 2026", portfolio-2026 iteration
+// 9/10 redesign) — identical across Home/Studio/About, so it's a shared component.
+// Down to 3 social icons (LinkedIn, Substack, X) per that node — Instagram and
+// Spotify aren't in the redesign.
 const SOCIALS = [
   { icon: iconLinkedin, href: 'https://www.linkedin.com/in/missmichfeng/', label: 'LinkedIn' },
   { icon: iconSubstack, href: 'https://substack.com/@missmichfeng', label: 'Substack' },
-  { icon: iconInstagram, href: 'https://www.instagram.com/missmichfeng/', label: 'Instagram' },
   { icon: iconTwitter, href: 'https://x.com/missmichfeng', label: 'X (Twitter)' },
-  {
-    icon: iconSpotify,
-    href: 'https://open.spotify.com/playlist/1jmz4vzE9EQ7y0orm5gNvE?si=28f847ab1f93409a',
-    label: 'Spotify',
-  },
 ]
 
 export default function SiteFooter() {
@@ -28,29 +22,30 @@ export default function SiteFooter() {
     >
       <div className="flex flex-col items-center gap-8 text-center sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6 sm:text-left">
         <div className="flex flex-col items-center gap-1 sm:items-start">
-          <p className="font-heading text-[24px] font-medium leading-normal tracking-[0.1px] text-black">
-            Michelle Feng
+          <p className="font-display text-[24px] font-bold leading-normal tracking-[0.1px] text-black">
+            michelle feng
           </p>
           <nav className="flex items-center gap-2 font-body text-[16px] leading-normal tracking-[0.1px]">
             <a href="/" className="text-black/50 transition-colors hover:text-black">
-              Work
+              work
             </a>
-            <a href="/play/" className="text-black/50 transition-colors hover:text-black">
-              Play
+            <a href="/studio/" className="text-black/50 transition-colors hover:text-black">
+              studio
             </a>
             <a href="/about/" className="text-black/50 transition-colors hover:text-black">
-              About
+              about
             </a>
           </nav>
         </div>
 
+        {/* Rest state shows the two heart icons; hovering swaps to the words. */}
         <div className="group relative flex h-[25px] w-[140px] items-center justify-center sm:justify-self-center">
           <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-50 transition-opacity duration-200 group-hover:opacity-0">
             <img src={iconHeartOutline} alt="" className="size-[25px]" />
             <img src={iconHeartFilled} alt="" className="size-6" />
           </div>
-          <p className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-body text-[16px] italic leading-normal text-black opacity-0 transition-opacity duration-200 group-hover:opacity-50">
-            made with love
+          <p className="absolute inset-0 flex items-center justify-center whitespace-nowrap font-body text-[16px] leading-normal text-black opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            made with love © 2026
           </p>
         </div>
 
