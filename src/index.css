@@ -60,46 +60,6 @@ html, body {
 .font-accent { font-family: var(--font-accent); }
 .font-hand { font-family: var(--font-hand); }
 
-/* Opts every same-origin navigation between these static pages into the browser's
-   native cross-document View Transition (a crossfade) instead of an instant swap.
-   No JS/router needed — this is a plain multi-page app (separate HTML entry per
-   route), and `navigation: auto` is exactly the declarative hook for that case.
-   Unsupported browsers (fully unaware of @view-transition, e.g. Safari/Firefox at
-   time of writing) just ignore the rule and navigate instantly, same as before. */
-@view-transition {
-  navigation: auto;
-}
-
-/* A plain, gentle crossfade — no slide/transform. Matches the smooth-scroll feel
-   of the PlanIT/Capital One sidebar's section jumps (a soft ease, nothing showy)
-   rather than the more dramatic slide-up-from-bottom this replaced. */
-@keyframes page-fade-out {
-  to { opacity: 0; }
-}
-@keyframes page-fade-in {
-  from { opacity: 0; }
-}
-
-/* Without this, the browser's default cross-fade blend mode (plus-lighter, meant
-   to keep an ordinary crossfade from double-darkening overlapping content) stays
-   active underneath our custom animations too, washing out the moment the new
-   page overlaps the old one. Forcing normal blending + isolating the pair keeps
-   the fade looking like a clean dissolve instead. */
-::view-transition-image-pair(root) {
-  isolation: isolate;
-}
-::view-transition-old(root),
-::view-transition-new(root) {
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  animation: 0.35s ease-in-out both page-fade-out;
-}
-::view-transition-new(root) {
-  animation: 0.35s ease-in-out both page-fade-in;
-}
-
 /* Staggered per-letter reveal for Home's "michelle feng" heading on page load —
    see WriteInHeading in Home.jsx, which wraps each letter in its own span and
    offsets this same animation by index. */
