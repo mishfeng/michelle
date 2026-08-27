@@ -110,3 +110,27 @@ html, body {
 .site-glow {
   animation: site-glow-drift 32s ease-in-out infinite alternate;
 }
+
+/* One-shot attention nudge for interactive elements that benefit from a hint to
+   click (SolutionPreview's second option row, ResearchSection's "Literature
+   review" tab) — fired once, a couple seconds after their section scrolls into
+   view, via each component's own IntersectionObserver + setTimeout. */
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  60% { transform: translateY(2px); }
+}
+.nudge-once {
+  animation: nudge 0.6s ease-in-out;
+}
+
+/* Repeating invite to click through the SynthesisSection notebook carousel —
+   unlike .nudge-once this loops indefinitely, since there are multiple photos
+   to page through rather than a single element to notice once. */
+@keyframes arrow-pulse {
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50% { transform: translateY(-50%) scale(1.12); }
+}
+.arrow-pulse {
+  animation: arrow-pulse 1.8s ease-in-out infinite;
+}

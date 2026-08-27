@@ -8,7 +8,7 @@ import stickyNotesPhoto from '../../assets/planit/reflection-stickynotes-photo.j
 export default function ReflectionSection() {
   return (
     <div id="reflection" className="flex flex-col gap-4">
-      <SectionHeading className="mt-16" subtitle="Learnings and challenges">Reflection</SectionHeading>
+      <SectionHeading accent subtitle="Learnings and challenges" className="mt-16">Reflection</SectionHeading>
 
       <div className="flex flex-col gap-4">
         <img

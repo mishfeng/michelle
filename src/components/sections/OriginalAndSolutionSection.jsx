@@ -2,11 +2,9 @@ import readHereIcon from '../../assets/planit/paper-outline.svg'
 import originalGroupTodo from '../../assets/planit/original-group-todo.png'
 import originalYourTodo from '../../assets/planit/original-your-todo.png'
 import originalTripSummary from '../../assets/planit/original-trip-summary.png'
-import originalProblemVideo from '../../assets/planit/original-problem-video.mp4'
+import problemFriendsPhoto from '../../assets/planit/problem-friends-photo.png'
 import Pill from '../ui/Pill.jsx'
 import SectionHeading from '../ui/SectionHeading.jsx'
-import TealPanel from '../ui/TealPanel.jsx'
-import LabelValue from '../ui/LabelValue.jsx'
 import SolutionPreview from './SolutionPreview.jsx'
 
 // Figma nodes 1:92/1:104 (Read here pill + "The Original" heading), 1:79/1:101/1:102/1:103
@@ -29,14 +27,18 @@ export default function OriginalAndSolutionSection() {
         </a>
       </div>
 
-      <TealPanel className="mt-4 px-6 py-8 xl:px-[42px] xl:py-[40px]">
-        <LabelValue label="Gap Analysis" light>
-          The original design missed the core pain points of group trip planning: one place
-          communication, scheduling, and finding activities together. Suggestions happened in
-          isolation and friends couldn&apos;t see edits, leaving everyone to guess instead of
-          actually deciding as a group.
-        </LabelValue>
-      </TealPanel>
+      {/* Gap Analysis — node 475:8230. A plain gray card like the rest of the page's
+          content cards, not the teal accent panel this used to be. */}
+      <div className="mt-4 flex flex-col gap-1 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:px-[42px] xl:py-[40px]">
+        <p className="font-body text-[16px] tracking-[0.32px] text-black/50">Gap Analysis</p>
+        <p className="font-body text-[16px] tracking-[0.32px] text-black">
+          The original design <span className="font-bold">missed the core pain points</span> of
+          group trip planning: one place communication, scheduling, and finding activities
+          together. Suggestions happened in <span className="font-bold">isolation</span> and
+          friends couldn&apos;t see edits, leaving everyone to guess instead of actually deciding
+          as a group.
+        </p>
+      </div>
 
       {/* Three original-app phone screens, bleeding off the bottom of a light card
           (same bleed pattern as the hero banner in IntroSection, light variant) */}
@@ -58,31 +60,40 @@ export default function OriginalAndSolutionSection() {
         />
       </div>
 
-      <SectionHeading
-        id="problem"
-        className="mt-16"
-        subtitle="There is a gap between wanting to take a trip with friends... and actually going on the trip."
-      >
-        Problem
+      <SectionHeading id="problem" accent className="mt-[100px]">
+        problem
       </SectionHeading>
 
-      <video
-        src={originalProblemVideo}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        aria-label="A map being unrolled next to a packed suitcase and passport"
-        className="mt-6 h-[365px] w-full rounded-[8px] object-cover"
-      />
+      <div className="mt-8 flex flex-col gap-6 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:px-[42px] xl:py-[40px]">
+        <p className="font-body text-[20px] font-medium tracking-[0.1px] text-black">
+          There is a <span className="font-bold">gap</span> between wanting to take a trip with
+          friends... and actually going on the trip
+        </p>
+        <div className="flex flex-col items-center gap-4 xl:flex-row xl:justify-center xl:gap-8">
+          <div className="flex w-full max-w-[306px] flex-col gap-3 rounded-[8px] bg-[#e7e7e7] p-6">
+            <p className="self-end rounded-[100px] bg-white px-6 py-4 font-body text-[16px] font-medium tracking-[0.1px] text-black transition-transform duration-200 hover:scale-110">
+              GUYS... japan 👀
+            </p>
+            <p className="self-start rounded-[100px] bg-[#007aff] px-6 py-4 font-body text-[16px] font-medium tracking-[0.1px] text-white transition-transform duration-200 hover:scale-110">
+              i&rsquo;m downnn!
+            </p>
+            <p className="self-end rounded-[100px] bg-white px-6 py-4 font-body text-[16px] font-medium tracking-[0.1px] text-black transition-transform duration-200 hover:scale-110">
+              so... when?
+            </p>
+          </div>
+          <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#1b6d99] font-body text-[20px] font-medium text-white">
+            vs
+          </div>
+          <img
+            src={problemFriendsPhoto}
+            alt="Three friends raising their arms in front of a turquoise lake"
+            className="aspect-[306/249] w-full max-w-[306px] rounded-[8px] object-cover transition-transform duration-200 hover:-rotate-2"
+          />
+        </div>
+      </div>
 
-      <SectionHeading
-        id="solution"
-        className="mt-16"
-        subtitle="Introducing PlanIT... new with host/ friend mode, PlanAI for itinerary generation, and vote on dates."
-      >
-        Solution
+      <SectionHeading id="solution" accent className="mt-[100px]">
+        solution
       </SectionHeading>
 
       {/* Four highlighted preview rows (left) + matching phone mockup (right) — click a

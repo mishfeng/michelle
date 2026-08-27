@@ -22,8 +22,10 @@ export default function Sidebar({ links, getScrollTarget }) {
     () => typeof window !== 'undefined' && window.innerWidth >= DESKTOP_BREAKPOINT
   )
 
-  // Active link is set purely by click (not scroll position) — it turns black
-  // immediately on click and stays black until a different link is clicked.
+  // Clicking a link jumps the active state there immediately (rather than waiting
+  // for the smooth-scroll to land), but scrolling on its own also drives it — see
+  // the IntersectionObserver effect below — so the nav stays in sync as the user
+  // scrolls through the page, not just on click.
   const handleNavClick = (event, id) => {
     event.preventDefault()
     setActiveId(id)
@@ -51,6 +53,40 @@ export default function Sidebar({ links, getScrollTarget }) {
     }
   }, [])
 
+  // Scroll-spy: whichever section is nearest the top of the viewport gets the bold
+  // nav state. The band (0 from the top, -75% from the bottom) means a section
+  // becomes active the moment it crosses the top of the screen, not once it's
+  // significantly scrolled into view — so the nav updates as soon as the user
+  // hits a new section, not after a delay.
+  useEffect(() => {
+    const ids = links.map(toId)
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean)
+    if (sections.length === 0) return
+
+    const visibleRatios = new Map()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          visibleRatios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0)
+        }
+        // If two adjacent sections both intersect the band (the previous one's tail
+        // end still peeking in as the next one arrives), prefer the later one in
+        // page order — the section that just arrived should take over immediately
+        // rather than waiting for the previous one to fully clear the band.
+        let latestVisibleId = null
+        for (const id of ids) {
+          if ((visibleRatios.get(id) ?? 0) > 0) {
+            latestVisibleId = id
+          }
+        }
+        if (latestVisibleId) setActiveId(latestVisibleId)
+      },
+      { rootMargin: '0px 0px -75% 0px', threshold: [0, 1] }
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [links])
+
   if (!isVisible) return null
 
   return (
@@ -71,7 +107,7 @@ export default function Sidebar({ links, getScrollTarget }) {
       <a
         href="/"
         aria-label="Back"
-        className="group pointer-events-auto mb-4 flex items-center gap-2 self-start text-black/50 transition-colors hover:text-black"
+        className="group pointer-events-auto mb-[64px] flex items-center gap-2 self-start text-black/50 transition-colors hover:text-black"
       >
         <BackArrowIcon className="size-6 shrink-0 -rotate-90" />
         <span className="max-w-0 overflow-hidden whitespace-nowrap text-[16px] font-body tracking-[0.32px] opacity-0 transition-all duration-200 group-hover:max-w-[48px] group-hover:opacity-100">
@@ -87,8 +123,8 @@ export default function Sidebar({ links, getScrollTarget }) {
               key={link}
               href={`#${id}`}
               onClick={(event) => handleNavClick(event, id)}
-              className={`inline-block origin-left font-body text-[16px] leading-normal tracking-[0.32px] transition-[color,transform] duration-200 whitespace-nowrap hover:scale-110 ${
-                isActive ? 'text-black' : 'text-black/50 hover:text-black'
+              className={`inline-block origin-left font-body text-[16px] leading-normal tracking-[0.32px] transition-[color,transform,font-weight] duration-200 whitespace-nowrap hover:scale-110 ${
+                isActive ? 'font-medium text-black' : 'font-normal text-black/50 hover:font-semibold hover:text-black'
               }`}
             >
               {link}
