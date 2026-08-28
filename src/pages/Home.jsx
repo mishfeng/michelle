@@ -11,7 +11,7 @@ import skylineBase from '../assets/home/skyline-base.png'
 import skylineAccent from '../assets/home/skyline-accent.png'
 import planitTeaser from '../assets/home/planitvid.mp4'
 import capitalOneTeaser from '../assets/home/capitalone.mp4'
-import remiTeaser from '../assets/home/remi.mp4'
+import remiTeaser from '../assets/home/remi-thumb.mp4'
 import watchfulTeaser from '../assets/home/watchfulai.mp4'
 
 const cardShellClass =
