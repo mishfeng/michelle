@@ -9,7 +9,7 @@ import WriteInHeading from '../components/site/WriteInHeading.jsx'
 import WaveText from '../components/site/WaveText.jsx'
 import skylineBase from '../assets/home/skyline-base.png'
 import skylineAccent from '../assets/home/skyline-accent.png'
-import planitCover from '../assets/home/planit-cover.jpg'
+import planitTeaser from '../assets/home/planitvid.mp4'
 import capitalOneTeaser from '../assets/home/capitalone.mp4'
 import remiTeaser from '../assets/home/remi.mp4'
 import watchfulTeaser from '../assets/home/watchfulai.mp4'
@@ -185,9 +185,14 @@ export default function Home() {
           <div className="mt-[42px] grid grid-cols-1 gap-x-6 gap-y-[42px] sm:grid-cols-2">
             <a href="/planit/" data-cursor="case-study" className="group flex min-w-0 flex-col">
               <div className={`${cardShellClass} ${thumbnailClass}`}>
-                <img
-                  src={planitCover}
-                  alt="PlanIT overview and itinerary screens"
+                <video
+                  src={planitTeaser}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-label="PlanIT overview and itinerary screens"
                   className="absolute inset-0 size-full object-cover"
                 />
               </div>
