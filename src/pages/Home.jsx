@@ -10,9 +10,9 @@ import WaveText from '../components/site/WaveText.jsx'
 import skylineBase from '../assets/home/skyline-base.png'
 import skylineAccent from '../assets/home/skyline-accent.png'
 import planitTeaser from '../assets/home/planitvid.mp4'
-import capitalOneTeaser from '../assets/home/capitalone.mp4'
-import remiTeaser from '../assets/home/remi-thumb.mp4'
-import watchfulTeaser from '../assets/home/watchfulai.mp4'
+import capitalOneTeaser from '../assets/home/c1vid.mp4'
+import remiTeaser from '../assets/home/REMIvid.mp4'
+import watchfulTeaser from '../assets/home/watchfulaividd.mp4'
 
 const cardShellClass =
   'relative flex aspect-[665/500] w-full items-center justify-center overflow-hidden rounded-[12px] border-[0.5px] border-[#ddd] bg-[#f7f4f2]'
@@ -164,7 +164,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative mt-[184px] flex flex-col gap-1">
+            <div className="relative mt-[141px] flex flex-col gap-1">
               <WriteInHeading
                 text="michelle feng"
                 className="font-display text-[50px] font-bold leading-normal text-black"
@@ -173,7 +173,7 @@ export default function Home() {
                 is a{' '}
                 <WaveText className="font-accent text-[24px] font-normal italic">product designer</WaveText>{' '}
                 and{' '}
-                <WaveText className="font-hand text-[20px]">city explorer</WaveText>
+                <WaveText className="font-body font-semibold text-[20px]">storyteller</WaveText>
                 <br />
                 prev at <span className="text-black/50">capital one</span>
               </p>
@@ -182,7 +182,7 @@ export default function Home() {
         </div>
 
         <div className="relative mx-auto max-w-[1500px] px-6 pb-20 xl:px-[70px]">
-          <div className="mt-[42px] grid grid-cols-1 gap-x-6 gap-y-[42px] sm:grid-cols-2">
+          <div className="mt-[64px] grid grid-cols-1 gap-x-6 gap-y-[34px] sm:grid-cols-2">
             <a href="/planit/" data-cursor="case-study" className="group flex min-w-0 flex-col">
               <div className={`${cardShellClass} ${thumbnailClass}`}>
                 <video

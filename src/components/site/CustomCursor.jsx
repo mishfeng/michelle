@@ -2,18 +2,13 @@ import { useEffect, useRef } from 'react'
 
 const DOT_SIZE = 20
 const CASE_STUDY_SELECTOR = '[data-cursor="case-study"]'
-const DUST_THROTTLE_MS = 45
 
 // Medium brown dot that follows the pointer, replacing the native cursor
 // site-wide (see the `cursor: none` rule in index.css). Swaps to a "view case
 // study" pill (same brown, eye icon + label) whenever the pointer is over an
-// element flagged with data-cursor="case-study" (the Home page project cards).
-// Also leaves a continuous trail of "fairy dust" particles as the pointer
-// moves, appended straight to document.body (not through the React tree) so
-// their `position: fixed` coordinates stay viewport-relative — ScaleWrapper's
-// `transform: scale()` ancestor would otherwise become the containing block
-// for anything fixed further down the page. Mounted once per page from each
-// main-*.jsx entry, so it's present on every route.
+// element flagged with data-cursor="case-study" (the Home page project
+// cards). Mounted once per page from each main-*.jsx entry, so it's present
+// on every route.
 export default function CustomCursor() {
   const dotRef = useRef(null)
   const labelRef = useRef(null)
@@ -23,25 +18,6 @@ export default function CustomCursor() {
 
     const dot = dotRef.current
     const label = labelRef.current
-    let lastDustSpawn = 0
-
-    const spawnDust = (x, y) => {
-      const now = performance.now()
-      if (now - lastDustSpawn < DUST_THROTTLE_MS) return
-      lastDustSpawn = now
-
-      const size = 3 + Math.random() * 3
-      const dx = (Math.random() - 0.5) * 36
-      const particle = document.createElement('span')
-      particle.className = 'fairy-dust-particle'
-      particle.style.left = `${x}px`
-      particle.style.top = `${y}px`
-      particle.style.width = `${size}px`
-      particle.style.height = `${size}px`
-      particle.style.setProperty('--dx', `${dx}px`)
-      document.body.appendChild(particle)
-      particle.addEventListener('animationend', () => particle.remove())
-    }
 
     const move = (event) => {
       const isOverCaseStudy = Boolean(event.target.closest?.(CASE_STUDY_SELECTOR))
@@ -50,8 +26,6 @@ export default function CustomCursor() {
 
       dot.style.transform = `translate(${event.clientX - DOT_SIZE / 2}px, ${event.clientY - DOT_SIZE / 2}px)`
       label.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`
-
-      spawnDust(event.clientX, event.clientY)
     }
     const hide = () => {
       dot.style.opacity = '0'

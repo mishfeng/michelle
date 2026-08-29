@@ -82,25 +82,6 @@ html, body {
   }
 }
 
-/* "Fairy dust" sparkle trail spawned by CustomCursor.jsx on every pointer move —
-   particles are appended straight to document.body (fixed position, viewport
-   coordinates), then removed on their own animationend. */
-.fairy-dust-particle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, #f6d488 0%, #d9a441 55%, transparent 100%);
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  animation: fairy-dust-float 0.7s ease-out forwards;
-}
-@keyframes fairy-dust-float {
-  0% { opacity: 0.9; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx, 0px), -34px) scale(0.3); }
-}
-
 /* Very slow, low-amplitude drift for the home/about page background glow (see
    SiteBackground.jsx) — intentionally close to imperceptible at a glance. */
 @keyframes site-glow-drift {
