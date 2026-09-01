@@ -7,25 +7,22 @@ import DesignSection from '../components/sections/capital-one/DesignSection.jsx'
 import TestSection from '../components/sections/capital-one/TestSection.jsx'
 import DeliverSection from '../components/sections/capital-one/DeliverSection.jsx'
 import BeyondDesignSection from '../components/sections/capital-one/BeyondDesignSection.jsx'
-import ReflectionSection from '../components/sections/capital-one/ReflectionSection.jsx'
+import KeepReadingSection, { PLANIT_CARD, REMI_CARD } from '../components/sections/KeepReadingSection.jsx'
 
-// Figma node 39:4240 — nav label list for the "capital one case" frame.
+// Figma node 510:1241 — nav label list for the "capital one case 1.2" frame.
+// "Reflection" no longer has its own heading in this design (its photo
+// collage/closing card now read as part of "Beyond Design"), so it's dropped
+// from the nav; a "keep reading" teaser (linking to PlanIT + REMI, since this
+// page can't link to itself) was added instead, right before the footer.
 const NAV_LINKS = ['Context', 'Problem', 'Design', 'Test', 'Solution', 'Beyond Design']
 
-// The "Solution" nav label has no section of its own in the source file — it
-// lands on the "Deliver" heading instead (same mismatched-label pattern as
-// PlanIT's "Design Decisions" -> "before-after"). "Context" lands 64px above
-// the "Capital One" title rather than the top of the section.
+// "Context" lands 64px above the "Capital One" title rather than the top of
+// the section.
 function getScrollTarget(id) {
   if (id === 'context') {
     const title = document.getElementById('capital-one-title')
     if (!title) return null
     return window.scrollY + title.getBoundingClientRect().top - 64
-  }
-  if (id === 'solution') {
-    const heading = document.getElementById('deliver-heading')
-    if (!heading) return null
-    return window.scrollY + heading.getBoundingClientRect().top - 64
   }
   return null
 }
@@ -39,14 +36,14 @@ export default function CapitalOne() {
       <ScaleWrapper>
         <div className="bg-white min-h-screen">
           <main className="xl:pl-[250px]">
-            <div className="mx-auto max-w-[860px] px-6 py-14 xl:px-0">
+            <div className="mx-auto max-w-[860px] px-6 pt-14 pb-16 xl:px-0">
               <IntroSection />
               <ProblemSection />
               <DesignSection />
               <TestSection />
               <DeliverSection />
               <BeyondDesignSection />
-              <ReflectionSection />
+              <KeepReadingSection cards={[PLANIT_CARD, REMI_CARD]} className="mt-[100px]" />
             </div>
           </main>
         </div>

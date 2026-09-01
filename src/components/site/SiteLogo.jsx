@@ -11,7 +11,7 @@ export default function SiteLogo() {
       className="group flex size-[36px] shrink-0 items-center justify-center rounded-[18px] bg-[#f7f4f2] pt-[3.6px] pr-[9.6px] pb-[3.6px] pl-[8.4px] transition-colors duration-200 hover:bg-[#7a5138]"
     >
       <span className="font-hand text-[19.2px] leading-none tracking-[0.12px] text-black transition-colors duration-200 group-hover:text-[#f7f4f2]">
-        M
+        m
       </span>
     </a>
   )

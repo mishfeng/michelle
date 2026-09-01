@@ -8,10 +8,15 @@ import iconHeartFilled from '../../assets/site/icon-heart-filled.svg'
 // 9/10 redesign) — identical across Home/Studio/About, so it's a shared component.
 // Down to 3 social icons (LinkedIn, Substack, X) per that node — Instagram and
 // Spotify aren't in the redesign.
+// The X mark's source SVG has no built-in padding (its viewBox tightly bounds
+// the glyph), while LinkedIn's and Substack's glyphs sit inside a padded
+// 24x24 grid — at a shared size-6, X reads noticeably bigger/bolder than the
+// other two. Sized down (and left to its own aspect ratio via h-auto) so its
+// visual ink roughly matches its neighbors' ink size instead of their shared box.
 const SOCIALS = [
-  { icon: iconLinkedin, href: 'https://www.linkedin.com/in/missmichfeng/', label: 'LinkedIn' },
-  { icon: iconSubstack, href: 'https://substack.com/@missmichfeng', label: 'Substack' },
-  { icon: iconTwitter, href: 'https://x.com/missmichfeng', label: 'X (Twitter)' },
+  { icon: iconLinkedin, href: 'https://www.linkedin.com/in/missmichfeng/', label: 'LinkedIn', className: 'size-6' },
+  { icon: iconSubstack, href: 'https://substack.com/@missmichfeng', label: 'Substack', className: 'size-6' },
+  { icon: iconTwitter, href: 'https://x.com/missmichfeng', label: 'X (Twitter)', className: 'h-[15px] w-auto' },
 ]
 
 export default function SiteFooter() {
@@ -57,7 +62,7 @@ export default function SiteFooter() {
           <div className="flex items-center gap-4 opacity-50">
             {SOCIALS.map((social) => (
               <a key={social.label} href={social.href} aria-label={social.label} target="_blank" rel="noopener">
-                <img src={social.icon} alt="" className="size-6" />
+                <img src={social.icon} alt="" className={social.className} />
               </a>
             ))}
           </div>

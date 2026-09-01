@@ -54,11 +54,21 @@ html, body {
   cursor: none !important;
 }
 
-.font-heading { font-family: var(--font-heading); }
-.font-body { font-family: var(--font-body); }
-.font-display { font-family: var(--font-display); }
-.font-accent { font-family: var(--font-accent); }
-.font-hand { font-family: var(--font-hand); }
+/* Layered (not plain global rules) so these sit in the same cascade layer as
+   Tailwind's own utilities — unlayered CSS always wins over @layer content
+   regardless of specificity, which was silently defeating hover:font-hand
+   (a real Tailwind @utility, so it lands in @layer utilities) against the
+   plain .font-body rule that used to live here. */
+@layer utilities {
+  .font-heading { font-family: var(--font-heading); }
+  .font-body { font-family: var(--font-body); }
+  .font-display { font-family: var(--font-display); }
+  .font-accent { font-family: var(--font-accent); }
+}
+
+@utility font-hand {
+  font-family: var(--font-hand);
+}
 
 /* Staggered per-letter reveal for Home's "michelle feng" heading on page load —
    see WriteInHeading in Home.jsx, which wraps each letter in its own span and

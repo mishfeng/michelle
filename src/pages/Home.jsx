@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react'
-import { SCALE, DESKTOP_BREAKPOINT } from '../scale.js'
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
 import SiteLogo from '../components/site/SiteLogo.jsx'
 import SiteNav from '../components/site/SiteNav.jsx'
@@ -7,12 +5,39 @@ import SiteFooter from '../components/site/SiteFooter.jsx'
 import SiteBackground from '../components/site/SiteBackground.jsx'
 import WriteInHeading from '../components/site/WriteInHeading.jsx'
 import WaveText from '../components/site/WaveText.jsx'
-import skylineBase from '../assets/home/skyline-base.png'
-import skylineAccent from '../assets/home/skyline-accent.png'
-import planitTeaser from '../assets/home/planitvid.mp4'
-import capitalOneTeaser from '../assets/home/c1vid.mp4'
-import remiTeaser from '../assets/home/REMIvid.mp4'
-import watchfulTeaser from '../assets/home/watchfulaividd.mp4'
+import flowerYakult from '../assets/home/flower-yakult.png'
+import flowerTulipSoju from '../assets/home/flower-tulip-soju.png'
+import flowerMilktea from '../assets/home/flower-milktea.png'
+import flowerHydrangea from '../assets/home/flower-hydrangea-makgeolli.png'
+import flowerRamune from '../assets/home/flower-ramune.png'
+import flowerDaisyGrape from '../assets/home/flower-daisy-grape.png'
+import planitTeaser from '../assets/home/planitvidd.mp4'
+import capitalOneTeaser from '../assets/home/cap1vidd.mp4'
+import remiTeaser from '../assets/home/remividd.mp4'
+import watchfulTeaser from '../assets/home/watchfulvidd.mp4'
+
+// Figma node 580:7307 — hand-drawn vases (repurposed drink bottles/cans) with
+// flowers, flanking the centered hero heading with 64px between each cluster
+// and the heading. The Figma frame exports both clusters as crops of one
+// shared sprite; sliced locally into individual vases here so each can move
+// independently on hover. hoverClass is a literal string (not built via
+// template interpolation) so Tailwind's static scanner picks up each one.
+// width is pinned per vase (naturalWidth / 527 * 225, the crops' shared source
+// height, scaled down ~13% from the original 260px) rather than left to
+// w-auto — inside this absolutely-positioned flex row, auto-width-from-aspect-
+// ratio was collapsing every vase to a uniform, wrong 24px instead of sizing
+// each from its own intrinsic ratio.
+const LEFT_FLOWERS = [
+  { src: flowerYakult, alt: 'Yakult bottle vase with an orange chrysanthemum', width: 45.23, hoverClass: 'hover:-translate-y-2 hover:rotate-[-3deg]' },
+  { src: flowerTulipSoju, alt: 'Soju bottle vase with orange tulips', width: 53.38, hoverClass: 'hover:-translate-y-2 hover:rotate-[2deg]' },
+  { src: flowerMilktea, alt: 'Royal Milk Tea can vase with a pink lotus', width: 55.92, hoverClass: 'hover:-translate-y-2 hover:rotate-[-2deg]' },
+]
+const RIGHT_FLOWERS = [
+  { src: flowerHydrangea, alt: 'Makgeolli bottle vase with a blue hydrangea', width: 84.09, hoverClass: 'hover:-translate-y-2 hover:rotate-[3deg]' },
+  { src: flowerRamune, alt: 'Ramune bottle vase with pink camellias', width: 55.92, hoverClass: 'hover:-translate-y-2 hover:rotate-[-2deg]' },
+  { src: flowerDaisyGrape, alt: 'Grape soda can vase with a white daisy', width: 48.68, hoverClass: 'hover:-translate-y-2 hover:rotate-[2deg]' },
+]
+const flowerImgClass = 'h-[225px] shrink-0 origin-bottom transition-transform duration-300 ease-out'
 
 const cardShellClass =
   'relative flex aspect-[665/500] w-full items-center justify-center overflow-hidden rounded-[12px] border-[0.5px] border-[#ddd] bg-[#f7f4f2]'
@@ -20,143 +45,27 @@ const cardShellClass =
 // duration reads as a gentle settle instead of a snap.
 const thumbnailClass = 'origin-left transition-transform duration-300 ease-out group-hover:scale-[0.99]'
 
-const SPOTLIGHT_RADIUS = 260
-
 // Figma nodes 430:5535-5546 — title (semibold) + "Org · Year" (regular) inline,
-// replacing the old stacked two-line caption. The whole caption is hover-only now
-// (hidden at rest, both halves fade in together on thumbnail hover).
+// replacing the old stacked two-line caption. Hover-only on sm+ (both halves
+// fade in together on thumbnail hover), but shown at rest below sm — touch
+// devices have no hover state to reveal it otherwise.
 function ProjectCaption({ title, subtitle }) {
   return (
-    <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 font-body text-[16px] leading-normal text-black opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+    <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 font-body text-[16px] leading-normal text-black opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100">
       <p className="font-semibold">{title}</p>
       <p>{subtitle}</p>
     </div>
   )
 }
 
-// Ported from Figma "portfolio-2026" file, frames "home page iteration 9"
-// (430:5311, resting) and "home page iteration 10" (430:5524, hover) — the
-// hand-drawn SF skyline sketch (image 54 / skylineBase) and the grid-paper
-// texture behind it (image 55 / skylineAccent) are only in the hover frame, so
-// their opacity values below the "ambient" (always-on) layer are this session's
-// own interpretation of "part of the image visible at rest, hover reveals more,"
-// not values pulled from the file — worth a look once it's live. On top of that
-// ambient layer, a second "spotlight" copy of each image is masked to a soft
-// circle that tracks the cursor (handleHeroMouseMove), so both images brighten
-// and dim continuously as the cursor moves through the hero rather than only
-// switching between two fixed states on hover in/out.
 export default function Home() {
-  const heroRef = useRef(null)
-  const imageOuterRef = useRef(null)
-  const gridGlowRef = useRef(null)
-  const cityGlowRef = useRef(null)
-  const cityWrapRef = useRef(null)
-
-  // Each glow layer gets the gradient measured against its OWN rect, not the
-  // hero row's — the grid and city layers are much taller than the logo/nav/
-  // heading row that group-hover/hero listens on, so a single shared percentage
-  // would land the "spotlight" far from the actual cursor position.
-  const handleHeroMouseMove = (event) => {
-    for (const ref of [gridGlowRef, cityGlowRef]) {
-      const el = ref.current
-      if (!el) continue
-      const rect = el.getBoundingClientRect()
-      const x = ((event.clientX - rect.left) / rect.width) * 100
-      const y = ((event.clientY - rect.top) / rect.height) * 100
-      const mask = `radial-gradient(circle ${SPOTLIGHT_RADIUS}px at ${x}% ${y}%, black 0%, transparent 100%)`
-      el.style.maskImage = mask
-      el.style.webkitMaskImage = mask
-    }
-  }
-
-  // Below DESKTOP_BREAKPOINT, ScaleWrapper renders everything at natural fluid
-  // width (no transform) and this container's default 100%-of-hero sizing is
-  // already exactly right. At/above DESKTOP_BREAKPOINT, ScaleWrapper centers a
-  // fixed 1500px canvas at 1.2x — on a wide monitor that leaves equal margins on
-  // both sides, so the image's right edge (tuned to land flush with the canvas's
-  // own edge) stops short of the real browser edge by however wide that margin
-  // is. This measures that gap (viewport width minus the canvas's own right edge)
-  // only in the scaled regime and nudges the sketch further right by exactly that
-  // amount, converted back into the canvas's own (pre-scale) coordinate space.
-  // The outer container's width has to grow by the same amount too — it's what
-  // actually clips the image (overflow-hidden), so without this its clip
-  // boundary stays pinned to the canvas edge and silently cuts off the exact
-  // pixels the shift was trying to reveal.
-  useEffect(() => {
-    const updateEdgeShift = () => {
-      const hero = heroRef.current
-      const wrap = cityWrapRef.current
-      const outer = imageOuterRef.current
-      if (!hero || !wrap || !outer) return
-
-      if (window.innerWidth < DESKTOP_BREAKPOINT) {
-        wrap.style.transform = 'translateX(0px)'
-        outer.style.width = '100%'
-        return
-      }
-      const heroRect = hero.getBoundingClientRect()
-      const gap = window.innerWidth - heroRect.right
-      const extra = gap > 0 ? gap / SCALE : 0
-      wrap.style.transform = `translateX(${extra}px)`
-      outer.style.width = `${1500 + extra}px`
-    }
-    updateEdgeShift()
-    window.addEventListener('resize', updateEdgeShift)
-    return () => window.removeEventListener('resize', updateEdgeShift)
-  }, [])
-
   return (
     <ScaleWrapper center>
       <div className="relative bg-white min-h-screen">
         <SiteBackground />
 
-        {/* group/hero spans the true full page width (not the padded content column)
-            so the skyline layers below can bleed flush to the page's own right edge,
-            matching Figma's frame-edge bleed, instead of stopping at the content's
-            xl:px-[70px] inset. The logo/nav/heading row re-applies that same padding
-            on its own inner wrapper so it still lines up with the rest of the page. */}
-        <div className="group/hero relative" ref={heroRef} onMouseMove={handleHeroMouseMove}>
-          <div
-            ref={imageOuterRef}
-            className="pointer-events-none absolute -top-[204px] hidden h-[966px] overflow-hidden sm:block"
-            style={{ left: 0, width: '100%' }}
-            aria-hidden="true"
-          >
-            {/* Grid paper texture — always faintly present, brightens on hover, and
-                stays painted first so the skyline sketch below is always on top of it. */}
-            <div
-              className="absolute h-[922px] w-[601px] opacity-[0.15] transition-opacity duration-500 group-hover/hero:opacity-35"
-              style={{ left: 874, top: 44 }}
-            >
-              <img src={skylineAccent} alt="" className="absolute inset-0 size-full object-cover" />
-            </div>
-            <div
-              ref={gridGlowRef}
-              className="absolute h-[922px] w-[601px] opacity-0 transition-opacity duration-300 group-hover/hero:opacity-90"
-              style={{ left: 874, top: 44 }}
-            >
-              <img src={skylineAccent} alt="" className="absolute inset-0 size-full object-cover" />
-            </div>
-
-            {/* Hand-drawn skyline sketch — painted after the grid, so it's always on top.
-                Base position shifted right + down from its original Figma-sourced spot
-                (527, 0); the wrapper's own transform is then corrected live (see
-                updateEdgeShift) so the bridge always lands flush against the real screen
-                edge, not just this container's edge. */}
-            <div ref={cityWrapRef} className="absolute size-[905px]" style={{ left: 615, top: 40 }}>
-              <div className="absolute inset-0 opacity-[0.12] transition-opacity duration-500 group-hover/hero:opacity-35">
-                <img src={skylineBase} alt="" className="absolute inset-0 size-full" />
-              </div>
-              <div
-                ref={cityGlowRef}
-                className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/hero:opacity-100"
-              >
-                <img src={skylineBase} alt="" className="absolute inset-0 size-full" />
-              </div>
-            </div>
-          </div>
-
-          <div className="relative mx-auto max-w-[1500px] px-6 pt-11 xl:px-[70px]">
+        <div className="relative">
+          <div className="relative mx-auto max-w-[1500px] px-6 pt-[32px] xl:px-[70px]">
             <div className="relative grid grid-cols-[1fr_auto_1fr] items-center">
               <SiteLogo />
               <div className="justify-self-center">
@@ -164,24 +73,59 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative mt-[141px] flex flex-col gap-1">
-              <WriteInHeading
-                text="michelle feng"
-                className="font-display text-[50px] font-bold leading-normal text-black"
-              />
-              <p className="font-body text-[24px] font-light leading-normal text-black">
-                is a{' '}
-                <WaveText className="font-accent text-[24px] font-normal italic">product designer</WaveText>{' '}
-                and{' '}
-                <WaveText className="font-body font-semibold text-[20px]">storyteller</WaveText>
-                <br />
-                prev at <span className="text-black/50">capital one</span>
-              </p>
+            <div className="relative mt-[128px] flex justify-center">
+              <div className="relative flex flex-col items-center gap-1 text-center">
+                <WriteInHeading
+                  text="michelle feng"
+                  className="font-display text-[50px] font-bold leading-normal text-black"
+                />
+                <p className="font-body text-[24px] font-light leading-normal text-black">
+                  is a{' '}
+                  <WaveText className="font-accent text-[24px] font-normal italic">product designer</WaveText>{' '}
+                  and{' '}
+                  <WaveText className="font-body font-semibold text-[24px]">storyteller</WaveText>
+                  <br />
+                  prev at <span className="text-black/50">capital one</span>
+                </p>
+
+                {/* Vase clusters, absolutely positioned (out of flow, so they can't
+                    stretch or push this column's own height) with their bottom edge
+                    anchored to the bottom of the FIRST subtitle line ("is a product
+                    designer and storyteller"), not the full two-line block: bottom-[41px]
+                    lines the vase bottom up with that line's actual rendered bottom
+                    (theoretical line-height math put it a few px off — tuned against
+                    the real layout), and this column's own bottom is the second line's
+                    ("prev at capital one") bottom. The 64px gap from the heading is
+                    baked into the offset itself (100% + 64px) rather than padding, so
+                    there's no dead space inside the hover target. */}
+                <div className="absolute right-[calc(100%+64px)] bottom-[41px] hidden items-end gap-3 lg:flex">
+                  {LEFT_FLOWERS.map((flower) => (
+                    <img
+                      key={flower.alt}
+                      src={flower.src}
+                      alt={flower.alt}
+                      style={{ width: `${flower.width}px` }}
+                      className={`${flowerImgClass} ${flower.hoverClass}`}
+                    />
+                  ))}
+                </div>
+                <div className="absolute left-[calc(100%+64px)] bottom-[41px] hidden items-end gap-3 lg:flex">
+                  {RIGHT_FLOWERS.map((flower) => (
+                    <img
+                      key={flower.alt}
+                      src={flower.src}
+                      alt={flower.alt}
+                      style={{ width: `${flower.width}px` }}
+                      className={`${flowerImgClass} ${flower.hoverClass}`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-[1500px] px-6 pb-20 xl:px-[70px]">
+        <div className="relative mx-auto max-w-[1500px] px-6 pb-[100px] xl:px-[70px]">
           <div className="mt-[64px] grid grid-cols-1 gap-x-6 gap-y-[34px] sm:grid-cols-2">
             <a href="/planit/" data-cursor="case-study" className="group flex min-w-0 flex-col">
               <div className={`${cardShellClass} ${thumbnailClass}`}>
@@ -220,7 +164,7 @@ export default function Home() {
               target="_blank"
               rel="noopener"
               data-cursor="case-study"
-              className="group flex min-w-0 flex-col"
+              className="group -mt-2 flex min-w-0 flex-col"
             >
               <div className={`${cardShellClass} ${thumbnailClass}`}>
                 <video
@@ -242,7 +186,7 @@ export default function Home() {
               target="_blank"
               rel="noopener"
               data-cursor="case-study"
-              className="group flex min-w-0 flex-col"
+              className="group -mt-2 flex min-w-0 flex-col"
             >
               <div className={`${cardShellClass} ${thumbnailClass}`}>
                 <video

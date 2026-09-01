@@ -6,7 +6,7 @@
 // didn't match the hover treatment.
 export default function SiteNav({ active }) {
   const linkClass = (id) =>
-    `rounded-[100px] px-[16px] py-[10px] font-body text-[16px] leading-normal text-black whitespace-nowrap transition-colors duration-200 ${
+    `rounded-[100px] px-[16px] py-[10px] font-body hover:font-hand text-[16px] hover:text-[14px] leading-normal text-black whitespace-nowrap transition-colors duration-200 ${
       active === id ? 'bg-[#f7f4f2]' : 'hover:bg-[#f7f4f2]'
     }`
 

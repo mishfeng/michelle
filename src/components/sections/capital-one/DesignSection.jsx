@@ -8,13 +8,13 @@ import partnerReview2 from '../../../assets/capital-one/design-partner-review-2.
 const cardClass =
   'flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:px-[42px] xl:py-10'
 
-// Figma nodes 39:2205-2207 (heading), 39:2209/2231-2234 (sketching), 39:2210/2262/2235-2237
-// (Figma wireframes), 39:2211/2264-2265/2238-2240 (partner review pair)
+// Figma node 510:1241 — heading is now lowercase accent-style with no
+// subtitle; text/layout otherwise unchanged, just new screenshots.
 export default function DesignSection() {
   return (
     <div id="design" className="flex flex-col gap-6">
-      <SectionHeading className="mt-16" subtitle="Ideate concepts and share with team">
-        Design
+      <SectionHeading accent accentColor="#013c5b" className="mt-16">
+        design
       </SectionHeading>
 
       <div className="flex flex-col gap-4">
@@ -30,7 +30,10 @@ export default function DesignSection() {
           />
         </div>
 
-        <div className={cardClass}>
+        {/* Extra padding vs. the other cards on this page — the wireframes image is
+            dense enough (5 phone screens + sticky notes) that the shared card
+            padding read as touching its own contents. */}
+        <div className="flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:px-[64px] xl:py-14">
           <LabelValue label="Diving into Figma">
             Now that everything was on the table, I started prioritizing concepts as I designed
             mid-fidelity wireframes in Figma.
@@ -47,18 +50,21 @@ export default function DesignSection() {
             I hosted weekly share out feedback sessions with partners to align on next steps
             throughout the summer. We aligned on these three prototypes to test.
           </LabelValue>
-          <div className="flex flex-wrap items-start gap-4">
+          {/* Figma sizes both prototype cards to the same height (341px) and lets
+              width follow each one's own aspect ratio — not the previous
+              flex-basis-by-width split, which let "testing for comprehension"
+              render shorter than the box on its left. -mb cancels the card's own
+              bottom padding so these sit flush against the card's bottom edge. */}
+          <div className="-mb-8 flex flex-wrap items-end justify-center gap-4 xl:-mb-10">
             <img
               src={partnerReview1}
               alt="Prototype review: testing for surprise and delight"
-              className="rounded-[12px]"
-              style={{ flex: '731 1 0', minWidth: '220px' }}
+              className="w-full rounded-[12px] xl:h-[380px] xl:w-auto"
             />
             <img
               src={partnerReview2}
               alt="Prototype review: testing for comprehension"
-              className="rounded-[12px]"
-              style={{ flex: '424 1 0', minWidth: '150px' }}
+              className="w-full rounded-[12px] xl:h-[380px] xl:w-auto"
             />
           </div>
         </div>

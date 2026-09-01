@@ -9,13 +9,16 @@ const cardClass =
 const imageCardClass =
   'flex items-center justify-center rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] p-6 xl:p-10'
 
-// Figma nodes 39:2269-2271 (heading), 39:2221 (phone photo, bare), 39:2214/2275/2247-2249
-// (final recommendations), 39:2215/2276/2250-2252 (key takeaways)
+// Figma node 510:1241 — heading text changed from "Deliver" to "solution"
+// (lowercase accent style, no subtitle), matching the nav label ("Solution")
+// for the first time — the id now matches too, fixing the sidebar's
+// scroll-spy, which was silently watching for id="solution" (derived from
+// the nav label) while this section's id was "deliver".
 export default function DeliverSection() {
   return (
-    <div id="deliver" className="flex flex-col gap-6">
-      <SectionHeading id="deliver-heading" className="mt-16" subtitle="Final recommendations!">
-        Deliver
+    <div id="solution" className="flex flex-col gap-6">
+      <SectionHeading accent accentColor="#013c5b" className="mt-16">
+        solution
       </SectionHeading>
 
       <div className="flex flex-col gap-4">
