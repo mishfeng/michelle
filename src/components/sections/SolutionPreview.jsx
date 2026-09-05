@@ -99,7 +99,7 @@ export default function SolutionPreview() {
   }, [])
 
   return (
-    <div ref={containerRef} className="flex flex-col items-center gap-8 xl:flex-row xl:items-center xl:justify-between">
+    <div ref={containerRef} className="flex flex-col-reverse items-center gap-8 xl:flex-row xl:items-center xl:justify-between">
       <div className="flex w-full flex-col gap-4 xl:w-[469px] xl:shrink-0">
         {OPTIONS.map((option, index) => {
           const isActive = index === activeIndex
@@ -133,7 +133,9 @@ export default function SolutionPreview() {
         src={active.image}
         alt={active.alt}
         className={`aspect-[643/1371] w-[220px] shrink-0 border-[#393939] object-cover object-top xl:w-[313px] ${
-          activeIndex === 0 ? 'rounded-[44px] border-[12px]' : 'rounded-[32px] border-[10px]'
+          activeIndex === 0
+            ? 'rounded-[32px] border-[8px] xl:rounded-[44px] xl:border-[12px]'
+            : 'rounded-[24px] border-[7px] xl:rounded-[32px] xl:border-[10px]'
         }`}
       />
     </div>

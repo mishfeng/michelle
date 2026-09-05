@@ -7,6 +7,7 @@ import AboutJumpNav from '../components/site/AboutJumpNav.jsx'
 import ExperienceEntry from '../components/site/ExperienceEntry.jsx'
 import PhilosophyCard from '../components/site/PhilosophyCard.jsx'
 import SideQuestSection from '../components/site/SideQuestSection.jsx'
+import Reveal from '../components/site/Reveal.jsx'
 import aboutPhoto from '../assets/site/about-photo.jpeg'
 import iconLinkedin from '../assets/site/icon-linkedin.svg'
 
@@ -82,7 +83,7 @@ const SIDE_QUESTS = [
     viewHereHref: 'https://www.linkedin.com/in/missmichfeng/',
     dateRange: '2023 - Present',
     description:
-      'Helping non-technical majors (like myself) break into tech through posting my career journey, event recaps, and my work. Proud to be inspiring over 11,500 product builders alike.',
+      'Helping non-technical majors (like myself) break into tech through posting my career journey, event recaps, and my work. Proud to be inspiring over 12,000 product builders alike.',
     images: [
       { src: linkedin1, caption: 'Visited the LinkedIn office', width: '253px' },
       { src: linkedin2, caption: 'My posts on LinkedIn', width: '254px' },
@@ -137,24 +138,24 @@ export default function About() {
       <div className="relative bg-white min-h-screen">
         <SiteBackground />
 
-        <div className="relative mx-auto max-w-[1500px] px-6 pt-11 pb-20 xl:px-[70px]">
+        <div className="relative mx-auto max-w-[1500px] px-6 pt-[32px] pb-20 xl:px-[70px]">
           <PageHeader
             active="about"
             title="about me"
             subtitle={
               <>
                 a <WaveText className="font-accent text-[24px] font-normal italic underline">designer</WaveText> and{' '}
-                <WaveText className="font-hand text-[20px]">explorer</WaveText>
+                <WaveText className="font-body font-medium text-[24px]">storyteller</WaveText>
               </>
             }
-            caption="welcome to my scrapbook"
+            caption="welcome to my world"
           />
 
           <div className="mt-[41px] flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[52px]">
             <AboutJumpNav items={JUMP_ITEMS} />
 
             <div className="flex min-w-0 flex-1 flex-col gap-[100px]">
-              <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[60px]">
+              <Reveal className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-[60px]">
                 <div className="group w-full max-w-[462px] shrink-0 sm:w-[401px]">
                   <img
                     src={aboutPhoto}
@@ -177,37 +178,43 @@ export default function About() {
                     <p>
                       In my past life, I&apos;ve explored interfaces at capital one and studied design
                       in florence, italy and davis, ca. Previously, I competed in 12 hackathons, hosted 2
-                      hackathons, taught 50 high schoolers, and cultivated a linkedIn community of 11.5k
-                      product builders.
+                      hackathons, taught 50 high schoolers in tech and business, and cultivated a linkedIn
+                      community of 12,000 product builders.
                     </p>
                     <p>Building cool stuff? Let&apos;s chat :)</p>
                   </div>
                 </div>
-              </div>
+              </Reveal>
 
-              <section id="experience" className="flex flex-col gap-6">
+              <Reveal as="section" id="experience" className="flex flex-col gap-6">
                 <h2 className={sectionHeadingClass}>Experience</h2>
-                <div className="flex flex-wrap gap-6">
+                {/* 2-up grid on mobile (first two side by side, last two side by
+                    side under them) — sm+ reverts to the original flex-wrap,
+                    fixed-width card layout. */}
+                <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6">
                   {EXPERIENCE.map((entry) => (
                     <ExperienceEntry key={entry.company} {...entry} />
                   ))}
                 </div>
-              </section>
+              </Reveal>
 
-              <section id="philosophy" className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
+              <Reveal as="section" id="philosophy" className="flex flex-col gap-6">
+                <div className="flex flex-col gap-1">
                   <h2 className={sectionHeadingClass}>Philosophy</h2>
                   <p className={sectionSubtitleClass}>What gets me up in the morning</p>
                 </div>
-                <div className="flex flex-wrap gap-6">
+                {/* Full-width stacked on mobile — the sm:flex-wrap version below
+                    used flex-1 with no basis, which on a narrow viewport squeezed
+                    all three cards onto one cramped row instead of wrapping. */}
+                <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap">
                   {PHILOSOPHY.map((quote) => (
                     <PhilosophyCard key={quote}>{quote}</PhilosophyCard>
                   ))}
                 </div>
-              </section>
+              </Reveal>
 
-              <section id="side-quests" className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
+              <Reveal as="section" id="side-quests" className="flex flex-col gap-6">
+                <div className="flex flex-col gap-1">
                   <h2 className={sectionHeadingClass}>Side quests</h2>
                   <p className={sectionSubtitleClass}>Cheers to all the evening and weekend crafts!</p>
                 </div>
@@ -216,7 +223,7 @@ export default function About() {
                     <SideQuestSection key={quest.id} {...quest} />
                   ))}
                 </div>
-              </section>
+              </Reveal>
             </div>
           </div>
         </div>

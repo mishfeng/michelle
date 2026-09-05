@@ -2,6 +2,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import BackToTopButton from '../components/BackToTopButton.jsx'
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
+import Reveal from '../components/site/Reveal.jsx'
 import IntroSection from '../components/sections/IntroSection.jsx'
 import OriginalAndSolutionSection from '../components/sections/OriginalAndSolutionSection.jsx'
 import ResearchSection from '../components/sections/ResearchSection.jsx'
@@ -47,21 +48,31 @@ export default function PlanIT() {
       <BackToTopButton triggerId="reflection" />
       <ScaleWrapper>
         <div className="bg-white min-h-screen">
-          <main className="xl:pl-[250px]">
+          <main className="xl:pl-[100px]">
             <div className="mx-auto max-w-[860px] px-6 pt-[100px] pb-14 xl:px-0">
-              <IntroSection />
-              <OriginalAndSolutionSection />
-              <ResearchSection />
+              <Reveal>
+                <IntroSection />
+              </Reveal>
+              <Reveal>
+                <OriginalAndSolutionSection />
+              </Reveal>
+              <Reveal>
+                <ResearchSection />
+              </Reveal>
               {/* 32px gap between the active Research tab panel and the Takeaway panel */}
-              <div className="mt-8">
+              <Reveal className="mt-8">
                 <SynthesisSection />
-              </div>
+              </Reveal>
               {/* 32px gap between Synthesis's closing panel and the Design Decisions lead-in visual */}
-              <div className="mt-8">
+              <Reveal className="mt-8">
                 <DesignDecisionsSection />
-              </div>
-              <ReflectionSection />
-              <KeepReadingSection />
+              </Reveal>
+              <Reveal>
+                <ReflectionSection />
+              </Reveal>
+              <Reveal>
+                <KeepReadingSection />
+              </Reveal>
             </div>
           </main>
         </div>

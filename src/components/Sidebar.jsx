@@ -91,7 +91,7 @@ export default function Sidebar({ links, getScrollTarget }) {
 
   return (
     <aside
-      className="pointer-events-none fixed left-0 top-0 z-50 flex w-[250px] flex-col pt-[98px] pl-[34px]"
+      className="pointer-events-none fixed left-0 top-0 z-50 flex w-[100px] flex-col pt-[98px] pl-[34px]"
       style={
         isScaled
           ? { height: `${100 / SCALE}vh`, transform: `scale(${SCALE})`, transformOrigin: 'top left' }

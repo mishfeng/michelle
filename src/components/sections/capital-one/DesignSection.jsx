@@ -54,17 +54,21 @@ export default function DesignSection() {
               width follow each one's own aspect ratio — not the previous
               flex-basis-by-width split, which let "testing for comprehension"
               render shorter than the box on its left. -mb cancels the card's own
-              bottom padding so these sit flush against the card's bottom edge. */}
+              bottom padding so these sit flush against the card's bottom edge.
+              The inner corner where the two images meet (bottom-right of the
+              left one, bottom-left of the right one) is squared off so the
+              pair reads as one continuous edge instead of two separate rounded
+              cards touching. */}
           <div className="-mb-8 flex flex-wrap items-end justify-center gap-4 xl:-mb-10">
             <img
               src={partnerReview1}
               alt="Prototype review: testing for surprise and delight"
-              className="w-full rounded-[12px] xl:h-[380px] xl:w-auto"
+              className="h-[240px] w-full rounded-tl-[8px] rounded-tr-[8px] rounded-bl-[8px] rounded-br-none object-contain xl:h-[380px] xl:w-auto"
             />
             <img
               src={partnerReview2}
               alt="Prototype review: testing for comprehension"
-              className="w-full rounded-[12px] xl:h-[380px] xl:w-auto"
+              className="h-[240px] w-full rounded-tl-[8px] rounded-tr-[8px] rounded-br-[8px] rounded-bl-none object-contain xl:h-[380px] xl:w-auto"
             />
           </div>
         </div>

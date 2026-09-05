@@ -3,10 +3,12 @@
 // Active and hover both use the same beige fill (matching the logo's resting state)
 // for consistency — a brown/beige color swap on hover (tried in an earlier pass)
 // read as too harsh for a nav-wide hover, and a plain gray active fill (also tried)
-// didn't match the hover treatment.
+// didn't match the hover treatment. Hover font is Source Serif 4 medium italic
+// (the same accent font used for "product designer"/"designer" elsewhere), not
+// the hand-drawn font.
 export default function SiteNav({ active }) {
   const linkClass = (id) =>
-    `rounded-[100px] px-[16px] py-[10px] font-body hover:font-hand text-[16px] hover:text-[14px] leading-normal text-black whitespace-nowrap transition-colors duration-200 ${
+    `rounded-[100px] px-[16px] py-[10px] font-body hover:font-accent text-[16px] leading-normal text-black whitespace-nowrap transition-colors duration-200 hover:italic hover:font-medium ${
       active === id ? 'bg-[#f7f4f2]' : 'hover:bg-[#f7f4f2]'
     }`
 

@@ -68,21 +68,21 @@ export default function IntroSection() {
         </div>
       </div>
 
-      <div className="mt-[100px] flex flex-wrap items-center justify-center gap-4 rounded-[8px] bg-[#f8f8f8] px-6 py-8 xl:flex-nowrap xl:gap-[25px] xl:px-[70px]">
+      <div className="mt-[100px] flex flex-wrap items-center justify-center gap-4 rounded-[8px] bg-[#f8f8f8] px-6 py-8 xl:-mx-[70px] xl:flex-nowrap xl:gap-[25px] xl:px-[70px]">
         <img
           src={heroScreen1}
           alt="Funding component MVP — deposit confirmation, dimmed"
-          className="h-auto w-[28%] max-w-[224px] rounded-[16px] border-[3px] border-[#e3e3e3] xl:h-[491px] xl:w-[224px]"
+          className="h-auto w-[28%] max-w-[224px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[224px]"
         />
         <img
           src={heroScreen2}
           alt="Funding component MVP — deposit amount slider"
-          className="h-auto w-[28%] max-w-[222px] rounded-[16px] border-[3px] border-[#e3e3e3] xl:h-[491px] xl:w-[222px]"
+          className="h-auto w-[28%] max-w-[222px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[222px]"
         />
         <img
           src={heroScreen3}
           alt="Funding component MVP — refundable deposit tutorial overlay"
-          className="h-auto w-[28%] max-w-[227px] rounded-[16px] border-[3px] border-[#e3e3e3] xl:h-[491px] xl:w-[227px]"
+          className="h-auto w-[28%] max-w-[227px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[227px]"
         />
       </div>
 

@@ -26,6 +26,7 @@ const MIN_WIDTH_FOR_PIN = 640 // matches the site's existing `sm:` sticky conven
 export default function AboutJumpNav({ items }) {
   const placeholderRef = useRef(null)
   const [pin, setPin] = useState(null)
+  const [activeId, setActiveId] = useState(items[0]?.targetId ?? null)
 
   useEffect(() => {
     let frame = null
@@ -67,25 +68,60 @@ export default function AboutJumpNav({ items }) {
 
   const handleClick = (event, targetId) => {
     event.preventDefault()
+    setActiveId(targetId)
     const target = document.getElementById(targetId)
     if (!target) return
     const top = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET
     window.scrollTo({ top, behavior: 'smooth' })
   }
 
+  // Scroll-spy, same "latest section to enter the top band wins" approach as
+  // the case study Sidebar — whichever section is nearest the top of the
+  // viewport gets the bold/black nav state.
+  useEffect(() => {
+    const ids = items.map((item) => item.targetId)
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean)
+    if (sections.length === 0) return
+
+    const visibleRatios = new Map()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          visibleRatios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0)
+        }
+        let latestVisibleId = null
+        for (const id of ids) {
+          if ((visibleRatios.get(id) ?? 0) > 0) {
+            latestVisibleId = id
+          }
+        }
+        if (latestVisibleId) setActiveId(latestVisibleId)
+      },
+      { rootMargin: '0px 0px -75% 0px', threshold: [0, 1] },
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [items])
+
   const links = items.map((item) => (
     <a
       key={item.targetId}
       href={`#${item.targetId}`}
       onClick={(event) => handleClick(event, item.targetId)}
-      className="cursor-pointer font-body text-[16px] leading-normal tracking-[0.32px] text-black/50 transition-colors hover:text-black"
+      className={`cursor-pointer font-body text-[16px] leading-normal tracking-[0.32px] transition-colors ${
+        item.targetId === activeId ? 'font-medium text-black' : 'text-black/50 hover:text-black'
+      }`}
     >
       {item.label}
     </a>
   ))
 
   return (
-    <div ref={placeholderRef} style={{ width: 129, visibility: pin ? 'hidden' : 'visible' }}>
+    <div
+      ref={placeholderRef}
+      className="hidden sm:block"
+      style={{ width: 129, visibility: pin ? 'hidden' : 'visible' }}
+    >
       <nav className="flex w-[129px] shrink-0 flex-col gap-[12px]">{links}</nav>
       {pin &&
         createPortal(

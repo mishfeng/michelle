@@ -17,6 +17,7 @@ const MIN_WIDTH_FOR_PIN = 640 // matches AboutJumpNav's own `sm:` convention
 export default function PlayTagList({ tags }) {
   const placeholderRef = useRef(null)
   const [pin, setPin] = useState(null)
+  const [activeLabel, setActiveLabel] = useState(null)
 
   useEffect(() => {
     let frame = null
@@ -56,22 +57,57 @@ export default function PlayTagList({ tags }) {
     }
   }, [])
 
-  const handleClick = (event, targetId) => {
+  const handleClick = (event, targetId, label) => {
     if (!targetId) return
     event.preventDefault()
+    setActiveLabel(label)
     const target = document.getElementById(targetId)
     if (!target) return
     const top = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
   }
 
+  // Scroll-spy, same "latest section to enter the top band wins" approach as
+  // the case study Sidebar — each tag can own more than one project section
+  // (sectionIds), so every id watched is mapped back to its owning tag label.
+  useEffect(() => {
+    const idToLabel = new Map()
+    tags.forEach((tag) => {
+      (tag.sectionIds ?? (tag.targetId ? [tag.targetId] : [])).forEach((id) => idToLabel.set(id, tag.label))
+    })
+    const ids = Array.from(idToLabel.keys())
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean)
+    if (sections.length === 0) return
+
+    const visibleRatios = new Map()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          visibleRatios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0)
+        }
+        let latestVisibleId = null
+        for (const id of ids) {
+          if ((visibleRatios.get(id) ?? 0) > 0) {
+            latestVisibleId = id
+          }
+        }
+        if (latestVisibleId) setActiveLabel(idToLabel.get(latestVisibleId))
+      },
+      { rootMargin: '0px 0px -75% 0px', threshold: [0, 1] },
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [tags])
+
   const links = tags.map((tag) => (
     <a
       key={tag.label}
       href={tag.targetId ? `#${tag.targetId}` : undefined}
-      onClick={(event) => handleClick(event, tag.targetId)}
-      className={`font-body text-[16px] leading-normal tracking-[0.32px] text-black/50 transition-colors ${
-        tag.targetId ? 'cursor-pointer hover:text-black' : 'cursor-default'
+      onClick={(event) => handleClick(event, tag.targetId, tag.label)}
+      className={`font-body text-[16px] leading-normal tracking-[0.32px] transition-colors ${
+        tag.targetId ? 'cursor-pointer' : 'cursor-default'
+      } ${
+        tag.label === activeLabel ? 'font-medium text-black' : `text-black/50 ${tag.targetId ? 'hover:text-black' : ''}`
       }`}
     >
       {tag.label}
@@ -79,7 +115,11 @@ export default function PlayTagList({ tags }) {
   ))
 
   return (
-    <div ref={placeholderRef} style={{ width: 154, visibility: pin ? 'hidden' : 'visible' }}>
+    <div
+      ref={placeholderRef}
+      className="hidden sm:block"
+      style={{ width: 154, visibility: pin ? 'hidden' : 'visible' }}
+    >
       <nav className="flex w-[154px] shrink-0 flex-col gap-[7px]">{links}</nav>
       {pin &&
         createPortal(

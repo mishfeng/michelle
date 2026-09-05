@@ -97,8 +97,13 @@ export default function OriginalAndSolutionSection() {
       </SectionHeading>
 
       {/* Four highlighted preview rows (left) + matching phone mockup (right) — click a
-          row to preview its screen, mirroring the Figma prototype's click interaction. */}
-      <SolutionPreview />
+          row to preview its screen, mirroring the Figma prototype's click interaction.
+          mt-2 only matters on mobile, where the phone frame renders first (see
+          SolutionPreview's flex-col-reverse) directly under this heading with no
+          gap otherwise; sm+ keeps the original flush spacing. */}
+      <div className="mt-4 sm:mt-0">
+        <SolutionPreview />
+      </div>
     </div>
   )
 }

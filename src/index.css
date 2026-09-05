@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Domine:wght@700&family=Source+Serif+4:ital,wght@1,400&family=Finger+Paint&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Domine:wght@700&family=Source+Serif+4:ital,wght@1,400;1,500&family=Shantell+Sans:wght@500&display=swap');
 @import "tailwindcss";
 
 /*
@@ -10,16 +10,16 @@
   --font-heading: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-body: 'Figtree', -apple-system, sans-serif;
 
-  /* "portfolio-2026" iteration 9/10 redesign (Home/Studio/About) — three accent
+  /* "portfolio-2026" iteration 9/10 redesign (Home/Studio/About) — accent
      fonts layered on top of Figtree: Domine for the big page-title serif, Source
      Serif 4 italic for the underlined "product designer"/"designer" accent word,
-     and Finger Paint for the hand-drawn "city explorer"/"magic"/"explorer" words
-     and the "M" logo mark. Kept separate from --font-heading (SF Pro) rather than
-     replacing it, since --font-heading is still used by PlanIT/Capital One case
-     study headings that weren't part of this redesign. */
+     and Shantell Sans (medium) for the "m" logo mark. Kept separate from
+     --font-heading (SF Pro) rather than replacing it, since --font-heading is
+     still used by PlanIT/Capital One case study headings that weren't part of
+     this redesign. */
   --font-display: 'Domine', serif;
   --font-accent: 'Source Serif 4', serif;
-  --font-hand: 'Finger Paint', cursive;
+  --font-hand: 'Shantell Sans', cursive;
 
   /* Core UI */
   --ink: #000000;
@@ -54,18 +54,26 @@ html, body {
   cursor: none !important;
 }
 
-/* Layered (not plain global rules) so these sit in the same cascade layer as
-   Tailwind's own utilities — unlayered CSS always wins over @layer content
-   regardless of specificity, which was silently defeating hover:font-hand
-   (a real Tailwind @utility, so it lands in @layer utilities) against the
-   plain .font-body rule that used to live here. */
-@layer utilities {
-  .font-heading { font-family: var(--font-heading); }
-  .font-body { font-family: var(--font-body); }
-  .font-display { font-family: var(--font-display); }
-  .font-accent { font-family: var(--font-accent); }
+/* Declared via @utility (not plain @layer utilities classes) so Tailwind's
+   variant engine actually recognizes these as utilities it can prefix —
+   a plain hand-written `.font-body { ... }` class is invisible to Tailwind's
+   JIT scanner, so `hover:font-body` (or hover:font-accent, etc.) would
+   silently generate no CSS at all, leaving the un-hovered font in place.
+   This bit twice: once for hover:font-hand (fixed by converting font-hand),
+   and again for hover:font-accent on the nav links (fixed by converting the
+   rest of these too) — @utility is the only form that supports variants. */
+@utility font-heading {
+  font-family: var(--font-heading);
 }
-
+@utility font-body {
+  font-family: var(--font-body);
+}
+@utility font-display {
+  font-family: var(--font-display);
+}
+@utility font-accent {
+  font-family: var(--font-accent);
+}
 @utility font-hand {
   font-family: var(--font-hand);
 }

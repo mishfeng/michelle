@@ -1,6 +1,8 @@
 import Sidebar from '../components/Sidebar.jsx'
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
+import BackToTopButton from '../components/BackToTopButton.jsx'
+import Reveal from '../components/site/Reveal.jsx'
 import IntroSection from '../components/sections/capital-one/IntroSection.jsx'
 import ProblemSection from '../components/sections/capital-one/ProblemSection.jsx'
 import DesignSection from '../components/sections/capital-one/DesignSection.jsx'
@@ -35,19 +37,34 @@ export default function CapitalOne() {
       <Sidebar links={NAV_LINKS} getScrollTarget={getScrollTarget} />
       <ScaleWrapper>
         <div className="bg-white min-h-screen">
-          <main className="xl:pl-[250px]">
-            <div className="mx-auto max-w-[860px] px-6 pt-14 pb-16 xl:px-0">
-              <IntroSection />
-              <ProblemSection />
-              <DesignSection />
-              <TestSection />
-              <DeliverSection />
-              <BeyondDesignSection />
-              <KeepReadingSection cards={[PLANIT_CARD, REMI_CARD]} className="mt-[100px]" />
+          <main className="xl:pl-[100px]">
+            <div className="mx-auto max-w-[860px] px-6 pt-[100px] pb-16 xl:px-0">
+              <Reveal>
+                <IntroSection />
+              </Reveal>
+              <Reveal>
+                <ProblemSection />
+              </Reveal>
+              <Reveal>
+                <DesignSection />
+              </Reveal>
+              <Reveal>
+                <TestSection />
+              </Reveal>
+              <Reveal>
+                <DeliverSection />
+              </Reveal>
+              <Reveal>
+                <BeyondDesignSection />
+              </Reveal>
+              <Reveal className="mt-[100px]">
+                <KeepReadingSection cards={[PLANIT_CARD, REMI_CARD]} />
+              </Reveal>
             </div>
           </main>
         </div>
       </ScaleWrapper>
+      <BackToTopButton triggerId="beyond-design" />
       {/* Own ScaleWrapper (centered) rather than nesting inside the one above —
           the footer isn't part of the sidebar-reserving content column, so it
           shouldn't inherit that canvas's flush-left positioning. */}

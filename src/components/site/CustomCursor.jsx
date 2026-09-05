@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 
 const DOT_SIZE = 20
-const DOT_SIZE_HOVER = 32
+const DOT_SIZE_HOVER = 44
 const DOT_COLOR = '#7a5138'
-const DOT_COLOR_HOVER = '#b08968'
+const DOT_COLOR_HOVER = '#cba881'
 const CASE_STUDY_SELECTOR = '[data-cursor="case-study"]'
 
 // Medium brown dot that follows the pointer, replacing the native cursor
@@ -44,6 +44,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={dotRef}
+      id="custom-cursor"
       aria-hidden
       className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full opacity-0 transition-[width,height,background-color,opacity] duration-150"
       style={{ width: DOT_SIZE, height: DOT_SIZE, background: DOT_COLOR }}

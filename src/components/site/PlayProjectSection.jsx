@@ -22,6 +22,38 @@ function ScrollRow({ images, radius = '8px' }) {
     scrollToIndex(indexRef.current, 'auto')
   }, [])
 
+  // The step() buttons already re-anchor before they animate, so clicking
+  // never reaches an end — but dragging/wheeling the track directly bypasses
+  // step() entirely, and would eventually run out of the tripled array. This
+  // re-anchors scrollLeft by exactly one set-width the instant it crosses
+  // into the first or third copy — not after scrolling settles, since a
+  // delayed correction reads as a visible snap-back once the user has
+  // already stopped. Because the three copies are pixel-identical, an instant
+  // jump mid-scroll is invisible, so continuous scrolling (at whatever pace
+  // the user is going, including mid-momentum) just keeps going straight into
+  // the "next" copy with no seam — a true continuous loop, not a snap.
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track || images.length < 2) return
+    const onScroll = () => {
+      const setWidth = track.scrollWidth / 3
+      // scrollTo({ behavior: 'instant' }) specifically, not a plain
+      // `track.scrollLeft = ...` assignment — the track has scroll-smooth
+      // (CSS scroll-behavior: smooth) for the buttons' animated steps, which
+      // a plain property write would inherit too, animating this correction
+      // into a very visible jump backwards mid-scroll instead of a silent one.
+      if (track.scrollLeft < setWidth) {
+        indexRef.current += images.length
+        track.scrollTo({ left: track.scrollLeft + setWidth, behavior: 'instant' })
+      } else if (track.scrollLeft >= setWidth * 2) {
+        indexRef.current -= images.length
+        track.scrollTo({ left: track.scrollLeft - setWidth, behavior: 'instant' })
+      }
+    }
+    track.addEventListener('scroll', onScroll, { passive: true })
+    return () => track.removeEventListener('scroll', onScroll)
+  }, [images.length])
+
   const step = (direction) => {
     if (images.length < 2) return
     let current = indexRef.current

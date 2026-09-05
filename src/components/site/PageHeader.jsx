@@ -23,7 +23,7 @@ export default function PageHeader({ active, title, subtitle, caption }) {
         </div>
       </div>
 
-      <div className="mt-[184px] flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+      <div className="mt-[128px] flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 sm:mt-[184px]">
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
           <WriteInHeading text={title} className="font-display text-[50px] font-bold leading-normal text-black" />
           {/* Same light/normal weight system as Home's subheading — plain text drops

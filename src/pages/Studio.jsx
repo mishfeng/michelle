@@ -6,6 +6,7 @@ import WaveText from '../components/site/WaveText.jsx'
 import PlayTagList from '../components/site/PlayTagList.jsx'
 import PlayProjectSection from '../components/site/PlayProjectSection.jsx'
 import PlayArtGrid from '../components/site/PlayArtGrid.jsx'
+import Reveal from '../components/site/Reveal.jsx'
 import iconInstagram from '../assets/site/icon-instagram.svg'
 import iconLink from '../assets/play/icon-link.svg'
 
@@ -79,10 +80,15 @@ import digitalart7 from '../assets/play/digitalart-7.jpg'
 
 // Figma nodes 317:547-549 carry designer annotations mapping each tag to the
 // project(s) it should jump to (e.g. "Brand & graphic" -> hackdavis/akpsi).
+// targetId is where a click jumps to; sectionIds (defaulting to just
+// targetId) is the full set of project sections that tag's scroll-spy should
+// track, since a tag can cover more than one section (e.g. "Brand & graphic"
+// spans hackdavis, mishmatchy, and akpsi; "Event planning" spans homecoming
+// and seniorprom).
 const TAGS = [
-  { label: 'Brand & graphic', targetId: 'hackdavis' },
+  { label: 'Brand & graphic', targetId: 'hackdavis', sectionIds: ['hackdavis', 'mishmatchy', 'akpsi'] },
   { label: 'Marketing', targetId: 'picnicday' },
-  { label: 'Event planning', targetId: 'homecoming' },
+  { label: 'Event planning', targetId: 'homecoming', sectionIds: ['homecoming', 'seniorprom'] },
   { label: 'Fine art', targetId: 'fineart' },
   { label: 'Digital art', targetId: 'digitalart' },
 ]
@@ -206,13 +212,13 @@ export default function Studio() {
       <div className="relative bg-white min-h-screen">
         <SiteBackground />
 
-        <div className="relative mx-auto max-w-[1500px] px-6 pt-11 pb-20 xl:px-[70px]">
+        <div className="relative mx-auto max-w-[1500px] px-6 pt-[32px] pb-20 xl:px-[70px]">
           <PageHeader
             active="studio"
             title="open studio"
             subtitle={
               <>
-                is where the <WaveText className="font-hand text-[20px]">magic</WaveText> happens
+                is where the <WaveText className="font-accent text-[24px] font-normal italic">magic</WaveText> happens
               </>
             }
             caption="my virtual wall of crafts"
@@ -223,10 +229,12 @@ export default function Studio() {
 
             <div className="flex min-w-0 flex-1 basis-full flex-col gap-16 sm:basis-0">
               {PROJECTS.map((project) => (
-                <PlayProjectSection key={project.id} {...project} />
+                <Reveal key={project.id}>
+                  <PlayProjectSection {...project} />
+                </Reveal>
               ))}
 
-              <section id="fineart" className="flex min-w-0 flex-col">
+              <Reveal as="section" id="fineart" className="flex min-w-0 flex-col">
                 <h3 className="font-body text-[24px] leading-normal tracking-[0.1px] text-black">Fine art</h3>
                 <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
                   <div className="flex w-full flex-col font-body text-[16px] leading-normal tracking-[0.1px] text-black sm:w-[174px] sm:shrink-0">
@@ -239,9 +247,9 @@ export default function Studio() {
                 <div className="mt-8">
                   <PlayArtGrid {...FINE_ART} />
                 </div>
-              </section>
+              </Reveal>
 
-              <section id="digitalart" className="flex min-w-0 flex-col">
+              <Reveal as="section" id="digitalart" className="flex min-w-0 flex-col">
                 <h3 className="font-body text-[24px] leading-normal tracking-[0.1px] text-black">Digital art</h3>
                 <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
                   <div className="flex w-full flex-col font-body text-[16px] leading-normal tracking-[0.1px] text-black sm:w-[174px] sm:shrink-0">
@@ -254,7 +262,7 @@ export default function Studio() {
                 <div className="mt-8">
                   <PlayArtGrid {...DIGITAL_ART} />
                 </div>
-              </section>
+              </Reveal>
             </div>
           </div>
         </div>

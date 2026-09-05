@@ -3,7 +3,7 @@
 // "Company · Year" line.
 export default function ExperienceEntry({ logo, logoAlt, role, company, year }) {
   return (
-    <div className="flex w-[252px] max-w-full flex-col gap-3">
+    <div className="flex w-full min-w-0 flex-col gap-3 sm:w-[252px]">
       <div className="flex h-[112px] items-center justify-center rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8]">
         <img src={logo} alt={logoAlt} className="max-h-[54px] max-w-[70%] object-contain" />
       </div>
