@@ -1,6 +1,7 @@
 import SectionHeading from '../ui/SectionHeading.jsx'
 import LabelValue from '../ui/LabelValue.jsx'
 import BeforeAfterRow from '../ui/BeforeAfterRow.jsx'
+import Reveal from '../site/Reveal.jsx'
 
 import introVideo from '../../assets/planit/planit-mock-clip.mp4'
 import hostmodeOverview from '../../assets/planit/planit1.png'
@@ -145,7 +146,7 @@ export default function DesignDecisionsSection() {
     <div id="design-decisions" className="flex flex-col gap-4">
       {/* lead-in visual — node 1:278 (860x459 light-gray card) containing node 1:853
           (392x392 square video/image, centered — ~45.6% of the card's width, per Figma). */}
-      <div className="flex aspect-[860/459] w-full items-center justify-center rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8]">
+      <Reveal className="flex aspect-[860/459] w-full items-center justify-center rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8]">
         <video
           src={introVideo}
           autoPlay
@@ -156,13 +157,13 @@ export default function DesignDecisionsSection() {
           aria-label="PlanIT trip overview screen shown as a lead-in visual for the before/after comparison"
           className="aspect-square w-[45.6%] rounded-[8px] object-cover"
         />
-      </div>
+      </Reveal>
 
       {/* host mode / friend mode overview row — node 1:279.
           Below xl this becomes two clearly separate stacked groups (host pair + its own
           caption, then friend pair + its own caption) instead of cramming all 4 images
           into one row with a shared caption row that no longer lines up under anything. */}
-      <div className="flex flex-col gap-7 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] p-[22px]">
+      <Reveal className="flex flex-col gap-7 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] p-[22px]">
         {/* Mobile / tablet: grouped */}
         <div className="flex flex-col gap-7 xl:hidden">
           <div className="flex flex-col items-center gap-4">
@@ -230,14 +231,14 @@ export default function DesignDecisionsSection() {
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       <SectionHeading id="before-after" accent className="mt-[84px]">
         before → after
       </SectionHeading>
 
       {/* Flow 1: Increased guidance — node 1:74 */}
-      <div className="mt-4 flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
+      <Reveal className="mt-4 flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
         <LabelValue label="Increased guidance">
           Friends now have a <span className="font-bold">clear call to action button</span>{' '}
           prompting them to &#8220;vote on date&#8221; rather than being overwhelmed with having to
@@ -264,10 +265,10 @@ export default function DesignDecisionsSection() {
             height: 1630,
           }}
         />
-      </div>
+      </Reveal>
 
       {/* Flow 2: Real time collaborative itinerary — node 1:283 */}
-      <div className="flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
+      <Reveal className="flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
         <LabelValue label="Real time collaborative itinerary">
           Friends can now see <span className="font-bold">real time edits and reactions</span>,
           encouraging them to confidently leave suggestions accordingly. The confirmed itinerary is
@@ -305,10 +306,10 @@ export default function DesignDecisionsSection() {
             height: 1830,
           }}
         />
-      </div>
+      </Reveal>
 
       {/* Flow 3: Host controls — node 1:284 */}
-      <div className="flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
+      <Reveal className="flex flex-col gap-8 rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:gap-[42px] xl:px-[42px] xl:py-[42px]">
         <LabelValue label="Host controls">
           Host can now see a summary of suggestions to &#8220;approve&#8221; or
           &#8220;decline&#8221; while maintaining control of important actions like finalizing a
@@ -366,7 +367,7 @@ export default function DesignDecisionsSection() {
             height: 1603,
           }}
         />
-      </div>
+      </Reveal>
     </div>
   )
 }

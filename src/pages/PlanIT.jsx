@@ -63,10 +63,16 @@ export default function PlanIT() {
               <Reveal className="mt-8">
                 <SynthesisSection />
               </Reveal>
-              {/* 32px gap between Synthesis's closing panel and the Design Decisions lead-in visual */}
-              <Reveal className="mt-8">
+              {/* 32px gap between Synthesis's closing panel and the Design Decisions lead-in visual.
+                  Not wrapped in a single Reveal like the other sections: on mobile this section's
+                  stacked layout makes it far taller than the viewport, so one IntersectionObserver
+                  target covering the whole thing could never reach the 10% visible-area threshold —
+                  it stayed permanently opacity-0 (a blank stretch of the page). DesignDecisionsSection
+                  wraps its own inner flows in individual Reveals instead, each short enough to
+                  actually cross the threshold. */}
+              <div className="mt-8">
                 <DesignDecisionsSection />
-              </Reveal>
+              </div>
               <Reveal>
                 <ReflectionSection />
               </Reveal>
