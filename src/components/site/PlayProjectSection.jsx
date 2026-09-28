@@ -1,12 +1,72 @@
 import { useEffect, useRef } from 'react'
 import scrollArrow from '../../assets/play/scroll-arrow.svg'
+import iconArrowUpRightWhite from '../../assets/site/icon-arrow-up-right-white.svg'
+
+// A carousel item is either:
+// - a plain image (no `link`) — click opens the shared Lightbox to see it larger
+// - a video/image carrying `link: { href, label }` (the Picnic Day reel videos and
+//   the "welcome to the world of publicity" playbook photo) — click opens that
+//   external link instead, with a hover overlay (20% black + arrow + label)
+//   signaling it goes somewhere else rather than zooming in.
+function CarouselItem({ image, radius, onImageClick }) {
+  const media = image.video ? (
+    <video
+      src={image.video}
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      aria-label={image.alt || ''}
+      className="h-full w-auto object-cover"
+      style={{ borderRadius: radius }}
+    />
+  ) : (
+    <img src={image.src} alt={image.alt || ''} className="h-full w-auto object-cover" style={{ borderRadius: radius }} />
+  )
+
+  if (image.link) {
+    return (
+      <a
+        href={image.link.href}
+        target="_blank"
+        rel="noopener"
+        className="group relative block h-[249px] w-auto shrink-0"
+      >
+        {media}
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+          style={{ borderRadius: radius }}
+        >
+          <img src={iconArrowUpRightWhite} alt="" className="size-7" />
+          <span className="font-body text-[14px] font-medium leading-normal text-white">{image.link.label}</span>
+        </div>
+      </a>
+    )
+  }
+
+  if (image.src) {
+    return (
+      <button
+        type="button"
+        onClick={() => onImageClick(image.src, image.alt)}
+        aria-label="Open image preview"
+        className="h-[249px] w-auto shrink-0"
+      >
+        {media}
+      </button>
+    )
+  }
+
+  return <div className="h-[249px] w-auto shrink-0">{media}</div>
+}
 
 // Figma pattern repeated for every Play entry (e.g. nodes 319:655/319:660/319:661/
 // 319:667 for "HackDavis"): title + small icon/link, a category label, a date
 // range, a short description, and a row of images. The "Group 2" scroll-arrow
 // button (344:930) plus a partial-card peek past the visible row (319:778)
 // confirm the row loops as an infinite horizontal carousel, not a static grid.
-function ScrollRow({ images, radius = '8px' }) {
+function ScrollRow({ images, radius = '8px', onImageClick }) {
   const trackRef = useRef(null)
   const indexRef = useRef(images.length)
   const loopImages = images.length > 1 ? [...images, ...images, ...images] : images
@@ -79,30 +139,9 @@ function ScrollRow({ images, radius = '8px' }) {
         ref={trackRef}
         className="flex min-w-0 gap-[18px] overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {loopImages.map((image, index) =>
-          image.video ? (
-            <video
-              key={index}
-              src={image.video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              aria-label={image.alt || ''}
-              className="h-[249px] w-auto shrink-0 object-cover"
-              style={{ borderRadius: radius }}
-            />
-          ) : (
-            <img
-              key={index}
-              src={image.src}
-              alt={image.alt || ''}
-              className="h-[249px] w-auto shrink-0 object-cover"
-              style={{ borderRadius: radius }}
-            />
-          ),
-        )}
+        {loopImages.map((image, index) => (
+          <CarouselItem key={index} image={image} radius={radius} onImageClick={onImageClick} />
+        ))}
       </div>
       {images.length > 1 && (
         <>
@@ -137,6 +176,7 @@ export default function PlayProjectSection({
   description,
   images,
   imageRadius,
+  onImageClick,
 }) {
   return (
     <section id={id} className="flex min-w-0 flex-col">
@@ -167,7 +207,7 @@ export default function PlayProjectSection({
       </div>
 
       <div className="mt-8">
-        <ScrollRow images={images} radius={imageRadius} />
+        <ScrollRow images={images} radius={imageRadius} onImageClick={onImageClick} />
       </div>
     </section>
   )

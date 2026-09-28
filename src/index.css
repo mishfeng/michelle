@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Domine:wght@700&family=Source+Serif+4:ital,wght@1,400;1,500&family=Shantell+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Domine:wght@700&family=Source+Serif+4:ital,wght@1,400;1,500&family=Shantell+Sans:wght@500&family=Lato:wght@400;700&display=swap');
 @import "tailwindcss";
 
 /*
@@ -20,6 +20,7 @@
   --font-display: 'Domine', serif;
   --font-accent: 'Source Serif 4', serif;
   --font-hand: 'Shantell Sans', cursive;
+  --font-lato: 'Lato', -apple-system, sans-serif;
 
   /* Core UI */
   --ink: #000000;
@@ -77,6 +78,9 @@ html, body {
 @utility font-hand {
   font-family: var(--font-hand);
 }
+@utility font-lato {
+  font-family: var(--font-lato);
+}
 
 /* Staggered per-letter reveal for Home's "michelle feng" heading on page load —
    see WriteInHeading in Home.jsx, which wraps each letter in its own span and
@@ -132,4 +136,15 @@ html, body {
 }
 .arrow-pulse {
   animation: arrow-pulse 1.8s ease-in-out infinite;
+}
+
+/* One-shot grow-in for PlanIT's hero phone screens (IntroSection.jsx) — this
+   sits above the fold, so it plays on page load rather than being gated by an
+   IntersectionObserver like the scroll-triggered Reveal component. */
+@keyframes grow-in {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.grow-in {
+  animation: grow-in 1s ease-out both;
 }

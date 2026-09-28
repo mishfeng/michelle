@@ -29,7 +29,7 @@ function ResearchTab({ active, onClick, children, nudging = false }) {
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`whitespace-nowrap rounded-[100px] border px-5 py-2 font-body text-[16px] leading-5 tracking-[0.1px] transition-colors ${
+      className={`whitespace-nowrap rounded-[8px] border px-5 py-2 font-body text-[16px] leading-5 tracking-[0.1px] transition-colors ${
         active
           ? 'border-[#1b6d99] bg-[#1b6d99] text-white'
           : 'border-[#ddd] bg-[#f8f8f8] text-black hover:bg-[#eeeeee]'

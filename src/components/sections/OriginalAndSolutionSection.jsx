@@ -2,7 +2,7 @@ import readHereIcon from '../../assets/planit/paper-outline.svg'
 import originalGroupTodo from '../../assets/planit/original-group-todo.png'
 import originalYourTodo from '../../assets/planit/original-your-todo.png'
 import originalTripSummary from '../../assets/planit/original-trip-summary.png'
-import problemFriendsPhoto from '../../assets/planit/problem-friends-photo.png'
+import problemFriendsPhoto from '../../assets/planit/japan after.png'
 import Pill from '../ui/Pill.jsx'
 import SectionHeading from '../ui/SectionHeading.jsx'
 import SolutionPreview from './SolutionPreview.jsx'
@@ -84,11 +84,16 @@ export default function OriginalAndSolutionSection() {
           <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#1b6d99] font-body text-[20px] font-medium text-white">
             vs
           </div>
-          <img
-            src={problemFriendsPhoto}
-            alt="Three friends raising their arms in front of a turquoise lake"
-            className="aspect-[306/249] w-full max-w-[306px] rounded-[8px] object-cover transition-transform duration-200 hover:-rotate-2"
-          />
+          <div className="flex w-full max-w-[306px] flex-col gap-2">
+            <img
+              src={problemFriendsPhoto}
+              alt="Two friends laughing together on a rooftop observation deck overlooking a city in Japan"
+              className="aspect-[306/249] w-full rounded-[8px] object-cover transition-transform duration-200 hover:-rotate-2"
+            />
+            <p className="font-body text-[16px] tracking-[0.1px] text-black/50">
+              Umeda Sky Building in Osaka, Japan
+            </p>
+          </div>
         </div>
       </div>
 

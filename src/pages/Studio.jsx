@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ScaleWrapper from '../components/ScaleWrapper.jsx'
 import PageHeader from '../components/site/PageHeader.jsx'
 import SiteFooter from '../components/site/SiteFooter.jsx'
@@ -7,6 +8,7 @@ import PlayTagList from '../components/site/PlayTagList.jsx'
 import PlayProjectSection from '../components/site/PlayProjectSection.jsx'
 import PlayArtGrid from '../components/site/PlayArtGrid.jsx'
 import Reveal from '../components/site/Reveal.jsx'
+import Lightbox from '../components/site/Lightbox.jsx'
 import iconInstagram from '../assets/site/icon-instagram.svg'
 import iconLink from '../assets/play/icon-link.svg'
 
@@ -136,10 +138,23 @@ const PROJECTS = [
     dateRange: '2022 - 2024',
     description: 'Maintained a positive image through press releases, newsletters, social media content, giveaways, etc.',
     images: [
-      { video: picnicdayVideo1 },
+      {
+        video: picnicdayVideo1,
+        link: { href: 'https://www.instagram.com/reel/C5wKsz8vIvP/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==', label: 'view reel' },
+      },
       { src: picnicday2 },
-      { video: picnicdayVideo2 },
-      { src: picnicday4 },
+      {
+        video: picnicdayVideo2,
+        link: { href: 'https://www.instagram.com/reel/C5rEFiSP47b/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==', label: 'view reel' },
+      },
+      {
+        src: picnicday4,
+        alt: 'Welcome to the world of Publicity! playbook document',
+        link: {
+          href: 'https://docs.google.com/document/d/1G7aYKyGceU3hQYkAKGdWnOZAW9Qif-Vvl1eMjCFYKaU/edit?tab=t.0',
+          label: 'view playbook',
+        },
+      },
       { src: picnicday5 },
       { src: picnicday6 },
       { src: picnicday7 },
@@ -207,6 +222,8 @@ const DIGITAL_ART = {
 // old video hero + name/tagline block; everything below the header is unchanged).
 // Shares SiteFooter/SiteBackground/PageHeader with Home.jsx and About.jsx.
 export default function Studio() {
+  const [lightbox, setLightbox] = useState(null)
+
   return (
     <ScaleWrapper center>
       <div className="relative bg-white min-h-screen">
@@ -230,7 +247,7 @@ export default function Studio() {
             <div className="flex min-w-0 flex-1 basis-full flex-col gap-16 sm:basis-0">
               {PROJECTS.map((project) => (
                 <Reveal key={project.id}>
-                  <PlayProjectSection {...project} />
+                  <PlayProjectSection {...project} onImageClick={(src, alt) => setLightbox({ src, alt })} />
                 </Reveal>
               ))}
 
@@ -269,6 +286,7 @@ export default function Studio() {
 
         <SiteFooter />
       </div>
+      <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
     </ScaleWrapper>
   )
 }

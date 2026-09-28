@@ -1,12 +1,10 @@
-import heroScreen1 from '../../../assets/capital-one/context-hero-screen-1.png'
-import heroScreen2 from '../../../assets/capital-one/context-hero-screen-2.png'
-import heroScreen3 from '../../../assets/capital-one/context-hero-screen-3.png'
+import checkmarkAnimation from '../../../assets/capital-one/checkmark animation.png'
+import modal from '../../../assets/capital-one/modal.png'
+import popup from '../../../assets/capital-one/popup.png'
 import contextCard from '../../../assets/capital-one/context-card.png'
 import contextMvp from '../../../assets/capital-one/context-mvp-screenshot.png'
 import contextArrow from '../../../assets/capital-one/context-arrow.svg'
-import briefcaseIcon from '../../../assets/capital-one/briefcase.svg'
 import SectionHeading from '../../ui/SectionHeading.jsx'
-import Pill from '../../ui/Pill.jsx'
 
 const ACCENT = '#013c5b'
 
@@ -68,34 +66,36 @@ export default function IntroSection() {
         </div>
       </div>
 
-      <div className="mt-[100px] flex flex-wrap items-center justify-center gap-4 rounded-[8px] bg-[#f8f8f8] px-6 py-8 xl:-mx-[70px] xl:flex-nowrap xl:gap-[25px] xl:px-[70px]">
-        <img
-          src={heroScreen1}
-          alt="Funding component MVP — deposit confirmation, dimmed"
-          className="h-auto w-[28%] max-w-[224px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[224px]"
-        />
-        <img
-          src={heroScreen2}
-          alt="Funding component MVP — deposit amount slider"
-          className="h-auto w-[28%] max-w-[222px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[222px]"
-        />
-        <img
-          src={heroScreen3}
-          alt="Funding component MVP — refundable deposit tutorial overlay"
-          className="h-auto w-[28%] max-w-[227px] rounded-[16px] border-2 border-[#e3e3e3] xl:h-[491px] xl:w-[227px]"
-        />
+      {/* One larger asset on the left, two similarly-sized assets stacked on the
+          right — items-center on the row lets the taller right stack naturally
+          extend above/below the left asset for a staggered look (matches the
+          reference: left card centered against a taller right pair). */}
+      <div className="mt-[100px] rounded-[8px] bg-[#f8f8f8] px-6 py-10 xl:-mx-[70px] xl:px-[70px]">
+        <div className="flex -translate-x-4 flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center">
+          <img
+            src={checkmarkAnimation}
+            alt="Funding component MVP — deposit minimum met, checkmark animation"
+            className="h-[200px] w-auto object-contain xl:h-[280px]"
+          />
+          <div className="flex flex-col gap-4">
+            <img
+              src={modal}
+              alt="Funding component MVP — deposit minimum met modal"
+              className="h-[135px] w-auto object-contain drop-shadow-md xl:h-[186px]"
+            />
+            <img
+              src={popup}
+              alt="Funding component MVP — refundable deposit tutorial overlay"
+              className="h-[160px] w-auto object-contain xl:h-[220px]"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="mt-[100px] flex flex-col gap-6">
         <SectionHeading accent accentColor={ACCENT}>
           context
         </SectionHeading>
-
-        <div className="flex flex-wrap gap-4">
-          <Pill icon={briefcaseIcon} hoverable={false} tone="outline">Product Design Internship</Pill>
-          <Pill hoverable={false} tone="outline">UX Research</Pill>
-          <Pill hoverable={false} tone="outline">Design Strategy</Pill>
-        </div>
 
         <div className="rounded-[8px] border-[0.5px] border-[#ddd] bg-[#f8f8f8] px-6 py-8 xl:px-[42px] xl:py-10">
           <p className="font-body text-[16px] tracking-[0.32px] text-black">

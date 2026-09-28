@@ -1,7 +1,7 @@
 import SectionHeading from '../../ui/SectionHeading.jsx'
 import LabelValue from '../../ui/LabelValue.jsx'
 import solutionVideo from '../../../assets/capital-one/c1-solution.mp4'
-import recommendations from '../../../assets/capital-one/deliver-recommendations.png'
+import recommendations from '../../../assets/capital-one/deliver-recommendations-cropped.png'
 import keyTakeaways from '../../../assets/capital-one/deliver-key-takeaways.png'
 
 const cardClass =

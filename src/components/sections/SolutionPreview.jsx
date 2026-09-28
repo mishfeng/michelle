@@ -104,28 +104,32 @@ export default function SolutionPreview() {
         {OPTIONS.map((option, index) => {
           const isActive = index === activeIndex
           return (
-            <button
-              key={option.label}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              aria-pressed={isActive}
-              className={`flex flex-col gap-1 rounded-[8px] px-6 py-7 text-left transition-colors ${
-                isActive
-                  ? `${ACCENT_BG[option.accent]} text-white`
-                  : 'border border-[#ddd] bg-[#f8f8f8] text-black hover:bg-[#eeeeee]'
-              } ${nudging && index === NUDGE_INDEX ? 'nudge-once' : ''}`}
-            >
-              <p className="font-body text-[12px] leading-normal tracking-[0.24px] opacity-50">
-                {option.label}
+            <div key={option.label} className="flex items-start gap-6">
+              <p className="font-display text-[16px] font-bold leading-none text-black">
+                {index + 1}
               </p>
-              <p className="font-body text-[16px] leading-normal tracking-[0.32px]">
-                {option.description.map((segment, i) => (
-                  <span key={i} className={segment.bold ? 'font-bold' : undefined}>
-                    {segment.text}
-                  </span>
-                ))}
-              </p>
-            </button>
+              <button
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                aria-pressed={isActive}
+                className={`flex min-w-0 flex-1 flex-col gap-1 rounded-[8px] px-6 py-7 text-left transition-colors ${
+                  isActive
+                    ? `${ACCENT_BG[option.accent]} text-white`
+                    : 'border border-[#ddd] bg-[#f8f8f8] text-black hover:bg-[#eeeeee]'
+                } ${nudging && index === NUDGE_INDEX ? 'nudge-once' : ''}`}
+              >
+                <p className="font-body text-[12px] leading-normal tracking-[0.24px] opacity-50">
+                  {option.label}
+                </p>
+                <p className="font-body text-[16px] leading-normal tracking-[0.32px]">
+                  {option.description.map((segment, i) => (
+                    <span key={i} className={segment.bold ? 'font-bold' : undefined}>
+                      {segment.text}
+                    </span>
+                  ))}
+                </p>
+              </button>
+            </div>
           )
         })}
       </div>

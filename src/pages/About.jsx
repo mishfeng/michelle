@@ -10,6 +10,7 @@ import SideQuestSection from '../components/site/SideQuestSection.jsx'
 import Reveal from '../components/site/Reveal.jsx'
 import aboutPhoto from '../assets/site/about-photo.jpeg'
 import iconLinkedin from '../assets/site/icon-linkedin.svg'
+import iconMail from '../assets/site/icon-mail.svg'
 
 import logoCapitalOne from '../assets/about/logo-capital-one.png'
 import logoHackdavis from '../assets/about/logo-hackdavis.png'
@@ -18,8 +19,6 @@ import logoDesignInteractive from '../assets/about/logo-design-interactive.png'
 
 import iconMapArtGallery from '../assets/about/icon-map-art-gallery.svg'
 import iconAppleFilled from '../assets/about/icon-apple-filled.svg'
-import iconPaper from '../assets/about/icon-paper.svg'
-import iconVideo from '../assets/about/icon-video.svg'
 
 import linkedin1 from '../assets/about/linkedin-1-visited-office.jpg'
 import linkedin2 from '../assets/about/linkedin-2-my-posts.jpg'
@@ -70,7 +69,7 @@ const EXPERIENCE = [
 const PHILOSOPHY = [
   'Character is who you are when no one is watching.',
   'Be proactively reactive, not reactively proactive.',
-  'Worrying is such a terrible use of your imagination.',
+  'Beauty forms when curiosity follows inclination.',
 ]
 
 const SIDE_QUESTS = [
@@ -79,7 +78,6 @@ const SIDE_QUESTS = [
     icon: iconLinkedin,
     iconSize: 40,
     title: 'LinkedIn Creator',
-    viewHereIcon: iconLinkedin,
     viewHereHref: 'https://www.linkedin.com/in/missmichfeng/',
     dateRange: '2023 - Present',
     description:
@@ -96,7 +94,6 @@ const SIDE_QUESTS = [
     icon: iconMapArtGallery,
     iconSize: 32,
     title: 'Designer in Florence, Italy',
-    viewHereIcon: iconPaper,
     viewHereHref: 'https://docs.google.com/document/d/1oLrB7DXtLD5Qwqym-H0ST1gty7z0Ut1Y6M1ibJ0Jo70/edit?tab=t.0',
     dateRange: '2026',
     description:
@@ -113,7 +110,6 @@ const SIDE_QUESTS = [
     icon: iconAppleFilled,
     iconSize: 28,
     title: 'High school teacher',
-    viewHereIcon: iconVideo,
     viewHereHref: 'https://youtu.be/aa4rT_PS7ks',
     dateRange: '2023 - 24',
     description:
@@ -176,12 +172,20 @@ export default function About() {
                       mine do summersaults.
                     </p>
                     <p>
-                      In my past life, I&apos;ve explored interfaces at capital one and studied design
-                      in florence, italy and davis, ca. Previously, I competed in 12 hackathons, hosted 2
+                      In my past life, I&apos;ve explored interfaces at Capital One and studied design
+                      in Florence, Italy and Davis, CA. Previously, I competed in 12 hackathons, hosted 2
                       hackathons, taught 50 high schoolers in tech and business, and cultivated a linkedIn
                       community of 12,000 product builders.
                     </p>
-                    <p>Building cool stuff? Let&apos;s chat :)</p>
+                    <p className="flex items-center gap-3">
+                      Building cool stuff? Let&apos;s chat :)
+                      <a href="https://www.linkedin.com/in/missmichfeng/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <img src={iconLinkedin} alt="" className="size-5 opacity-50 transition-opacity hover:opacity-100" />
+                      </a>
+                      <a href="mailto:michellefeng153@gmail.com" aria-label="Email">
+                        <img src={iconMail} alt="" className="size-5 opacity-50 transition-opacity hover:opacity-100" />
+                      </a>
+                    </p>
                   </div>
                 </div>
               </Reveal>

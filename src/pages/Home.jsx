@@ -12,6 +12,7 @@ import flowerOiochaLotus from '../assets/home/flower-oiocha-lotus.png'
 import flowerMilkisMagnolia from '../assets/home/flower-milkis-magnolia.png'
 import flowerYeosChrysanthemum from '../assets/home/flower-yeos-chrysanthemum.png'
 import flowerYakultHydrangea from '../assets/home/flower-yakult-hydrangea.png'
+import iconArrowUpRight from '../assets/site/icon-arrow-up-right.svg'
 import planitTeaser from '../assets/home/planitvidd.mp4'
 import capitalOneTeaser from '../assets/home/cap1vidd.mp4'
 import remiTeaser from '../assets/home/remividd.mp4'
@@ -51,11 +52,24 @@ const thumbnailClass = 'origin-left transition-transform duration-300 ease-out g
 // replacing the old stacked two-line caption. Hover-only on sm+ (both halves
 // fade in together on thumbnail hover), but shown at rest below sm — touch
 // devices have no hover state to reveal it otherwise.
-function ProjectCaption({ title, subtitle }) {
+// showArrow adds a top-right arrow (REMI/Watchful.AI only) that shares the same
+// hover-reveal timing but sits on its own at the far right of the row —
+// justify-between against the row's own full width (matching the thumbnail
+// above it) is what right-aligns it to the thumbnail's edge.
+function ProjectCaption({ title, subtitle, showArrow = false }) {
   return (
-    <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 font-body text-[16px] leading-normal text-black opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100">
-      <p className="font-semibold">{title}</p>
-      <p>{subtitle}</p>
+    <div className="mt-3 flex items-baseline justify-between gap-4">
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-body text-[16px] leading-normal text-black opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100">
+        <p className="font-semibold">{title}</p>
+        <p>{subtitle}</p>
+      </div>
+      {showArrow && (
+        <img
+          src={iconArrowUpRight}
+          alt=""
+          className="-ml-3 size-6 shrink-0 opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100"
+        />
+      )}
     </div>
   )
 }
@@ -185,7 +199,11 @@ export default function Home() {
                     className="absolute inset-0 size-full object-cover"
                   />
                 </div>
-                <ProjectCaption title="REMI helps people with Alzheimer's disease" subtitle="SF Hacks 3x Prize Winner · 2025" />
+                <ProjectCaption
+                  title="REMI helps people with Alzheimer's disease"
+                  subtitle="SF Hacks 3x Prize Winner · 2025"
+                  showArrow
+                />
               </a>
             </Reveal>
 
@@ -210,8 +228,9 @@ export default function Home() {
                   />
                 </div>
                 <ProjectCaption
-                  title="Watchful.AI provides 24/7 protection against shootings"
+                  title="Watchful.AI 24/7 protection against shootings"
                   subtitle="UPenn 2x Prize Winner · 2024"
+                  showArrow
                 />
               </a>
             </Reveal>
