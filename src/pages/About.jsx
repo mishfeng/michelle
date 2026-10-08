@@ -7,6 +7,7 @@ import AboutJumpNav from '../components/site/AboutJumpNav.jsx'
 import ExperienceEntry from '../components/site/ExperienceEntry.jsx'
 import PhilosophyCard from '../components/site/PhilosophyCard.jsx'
 import SideQuestSection from '../components/site/SideQuestSection.jsx'
+import WritingSection from '../components/site/WritingSection.jsx'
 import Reveal from '../components/site/Reveal.jsx'
 import aboutPhoto from '../assets/site/about-photo.jpeg'
 import iconLinkedin from '../assets/site/icon-linkedin.svg'
@@ -51,6 +52,7 @@ const JUMP_ITEMS = [
   { label: 'Experience', targetId: 'experience' },
   { label: 'Philosophy', targetId: 'philosophy' },
   { label: 'Side quests', targetId: 'side-quests' },
+  { label: 'Writing', targetId: 'writing' },
 ]
 
 const EXPERIENCE = [
@@ -70,6 +72,22 @@ const PHILOSOPHY = [
   'Character is who you are when no one is watching.',
   'Be proactively reactive, not reactively proactive.',
   'Beauty forms when curiosity follows inclination.',
+]
+
+const WRITING = [
+  {
+    id: 'personal-statement',
+    title: 'A personal statement',
+    date: '2026',
+    wordCount: 99,
+    body: [
+      'What gets you up every morning?',
+      'My favorite question to ask. Sometimes it’s creating something so magical I can\'t sleep. Sometimes it’s simply eating my favorite home cooked meal.',
+      'These days, it’s curiosity. What if we host dinner parties? What if we bring our favorite people? What if we make toys? What if it’s the most unforgettable night we’ve ever had?',
+      'All paths lead back to being curious! Curiosity about the people around me. Curiosity to design products I call toys. Curiosity in what fills the room with joy.',
+      'It’s made me a little more of a morning person.',
+    ],
+  },
 ]
 
 const SIDE_QUESTS = [
@@ -227,6 +245,11 @@ export default function About() {
                     <SideQuestSection key={quest.id} {...quest} />
                   ))}
                 </div>
+              </Reveal>
+
+              <Reveal as="section" id="writing" className="flex flex-col gap-6">
+                <h2 className={sectionHeadingClass}>Writing</h2>
+                <WritingSection entries={WRITING} />
               </Reveal>
             </div>
           </div>
