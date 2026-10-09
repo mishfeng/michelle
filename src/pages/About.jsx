@@ -187,7 +187,7 @@ export default function About() {
                     <p>
                       I lead with curiosity and follow with my heart. I believe all of us have something
                       that makes our hearts twirl, and designing seamless experiences for people makes
-                      mine do summersaults.
+                      mine do somersaults.
                     </p>
                     <p>
                       In my past life, I&apos;ve explored interfaces at Capital One and studied design
